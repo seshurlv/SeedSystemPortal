@@ -38,9 +38,7 @@ export class SchedulerComponent implements OnInit {
   tableData1
   tableData2
   ngOnInit() {
-    this.tableData1 = {
-      headerRow: ['Grower Name', 'Inspector Name', 'Seed Class', 'Crop Name', 'Varient Name', 'Status' , 'Assigned Date'],
-    };
+    
 
     this.tableData2 = {
       headerRow: ['choose', 'Reg Id', 'Crop Name', 'Seed Class', 'Varient Name', 'Status'],
@@ -58,42 +56,26 @@ export class SchedulerComponent implements OnInit {
       .subscribe(res => {
         console.log(JSON.stringify(res))
         this.SchedulerArr = res
+
+        if (this.SchedulerArr) {
+          this.authService.GetGrowersWithOpenRegistrations()
+            .subscribe(res => {
+              console.log(JSON.stringify(res))
+              this.GrowersArr = res
+
+              if (this.GrowersArr) {
+                this.authService.GetUsersByRole(3)
+                  .subscribe(res => {
+                    // console.log(res)
+                    this.PSIArr = res
+                  })
+              }
+
+            })
+        }
       })
-
-    this.authService.GetGrowersWithOpenRegistrations()
-    .subscribe(res => {
-      console.log(JSON.stringify(res))
-      this.GrowersArr = res
-    })
-
-    // this.authService.GetUsersByRole(4)
-    //   .subscribe(res => {
-
-    //     //console.log(JSON.stringify(res))
-    //     this.GrowersArr = res
-    //   })
-
-    this.authService.GetUsersByRole(3)
-      .subscribe(res => {
-       // console.log(res)
-        this.PSIArr = res
-      })
-
-    // this.authService.GetProductCategory()
-    // .subscribe(res => {
-    //   console.log(res)
-    //   this.CropArr = res
-    // })
-
-    // this.authService.GetProducts()
-    // .subscribe(res => {
-    //   console.log(res)
-    //   this.CropVariantsArr = res
-    // })
-
-
-
   }
+
   radioSelected
   selectGrower() {
     console.log(this.user)
@@ -105,19 +87,19 @@ export class SchedulerComponent implements OnInit {
         console.log(JSON.stringify(res.length))
         console.log(this.radioSelected)
         this.radioSelected = null
-        if(res.length == 0){
+        if (res.length == 0) {
           this.unAssignedListArr = []
           console.log('if')
           this.radioSelected = null
           // this.form.value.unAssignedLists.reset();
-           console.log(this.radioSelected)
+          console.log(this.radioSelected)
           // console.log(this.form.value.unAssignedLists)
           // console.log(JSON.stringify(this.form.value))
-        }else {
+        } else {
           this.unAssignedListArr = res
         }
 
-        
+
       })
   }
 
@@ -182,20 +164,20 @@ export class SchedulerComponent implements OnInit {
   }
 
   arrow = true
-  toogleArrow(arrow){
+  toogleArrow(arrow) {
     console.log(arrow)
     this.arrow = !arrow
   }
-  
+
   sortgrower
-  sortGrower(sortgrower){
-   
+  sortGrower(sortgrower) {
+
     this.sortgrower = !sortgrower
 
-  
-      console.log(this.sortgrower)
-      
-     
-    
+
+    console.log(this.sortgrower)
+
+
+
   }
 }

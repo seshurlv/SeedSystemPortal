@@ -107,38 +107,33 @@ export class AppComponent implements OnInit {
     if (this.Role) {
       this.ifLogin = true;
     } else {
+      
       this.authService.GetDistricts()
-        .subscribe(res => {
-          console.log(JSON.stringify(res))
-          this.districtsArr = res
-        })
-
-      this.authService.getCountries()
-        .subscribe(res => {
-          this.countriesArr = res
-          console.log(JSON.stringify(res))
-          if (res) {
-            this.authService.getStates()
-              .subscribe(res => {
-                this.statesArr = res
-                console.log(JSON.stringify(res))
-                if (res) {
-                  this.authService.getRegions()
-                    .subscribe(res => {
-                      this.regionsArr = res
-                      console.log(JSON.stringify(res))
-                    })
-                }
-              })
-          }
-        })
-
-      // this.authService.getStates()
-      //   .subscribe(res => {
-      //     this.statesArr = res
-      //     //console.log(JSON.stringify(res))
-      //   })
-
+      .subscribe(res => {
+        console.log(JSON.stringify(res))
+        this.districtsArr = res
+        if(res){
+          this.authService.getCountries()
+          .subscribe(res => {
+            this.countriesArr = res
+            console.log(JSON.stringify(res))
+            if (res) {
+              this.authService.getStates()
+                .subscribe(res => {
+                  this.statesArr = res
+                  console.log(JSON.stringify(res))
+                  if (res) {
+                    this.authService.getRegions()
+                      .subscribe(res => {
+                        this.regionsArr = res
+                        console.log(JSON.stringify(res))
+                      })
+                  }
+                })
+            }
+          })
+        }
+      })
 
     }
 

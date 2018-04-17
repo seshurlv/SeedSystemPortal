@@ -9,8 +9,7 @@ export class AuthService {
   constructor(private _http: Http) { }
 
   getAccessToken(userName, pwd) {
-    console.log(userName)
-    console.log(pwd)
+   
     //let header = new Headers({ "Accept": "application/json" });
     return this._http.get(`http://ssuservices.aheadrace.com:8083/api/login/getservicetoken?username=${userName}&password=${pwd}`)
       .map(res => res.json())
@@ -18,8 +17,7 @@ export class AuthService {
 
   getUserDetails(userName) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(userName)
-    console.log(token)
+   
     let header = new Headers({ 'ServiceAccessToken': token })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/User/GetUserDetailsByUserName?userName=' + userName, { headers: header })
@@ -29,7 +27,7 @@ export class AuthService {
   getCountries() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+   
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/getcountries', { headers: header })
@@ -39,7 +37,7 @@ export class AuthService {
   getStates() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+    
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/getstates', { headers: header })
@@ -49,7 +47,7 @@ export class AuthService {
   GetDistricts() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+   
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetDistricts', { headers: header })
@@ -59,7 +57,7 @@ export class AuthService {
   GetEPAs() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+    
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetEPAs', { headers: header })
@@ -69,7 +67,7 @@ export class AuthService {
   GetSections() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+   
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetSections', { headers: header })
@@ -79,7 +77,7 @@ export class AuthService {
   GetUsersList() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+    
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/User/GetUsersList', { headers: header })
@@ -89,7 +87,7 @@ export class AuthService {
   GetProductCategory() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+  
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Product/GetProductCategoryById?Id=0', { headers: header })
@@ -99,7 +97,7 @@ export class AuthService {
   GetProducts() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+    
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Product/GetProductsById?Id=0', { headers: header })
@@ -109,7 +107,7 @@ export class AuthService {
   getRoles() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
 
-    console.log(token)
+    
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
 
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/User/GetRoles', { headers: header })
@@ -120,8 +118,8 @@ export class AuthService {
   //Get Epa By DistrictId
   getEpaByDistrictId(districtId) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
-    console.log(districtId)
+    // console.log(token)
+    // console.log(districtId)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetEPAByDistrictId?Id=' + districtId, { headers: header })
       .map(res => res.json())
@@ -130,8 +128,8 @@ export class AuthService {
   //Get Section By EPAId
   GetSectionByEPAId(EpaId) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
-    console.log(EpaId)
+    // console.log(token)
+    // console.log(EpaId)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetSectionByEPAId?id=' + EpaId, { headers: header })
       .map(res => res.json())
@@ -140,7 +138,7 @@ export class AuthService {
   //GetUsersByRole
   GetUsersByRole(id) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/User/GetUsersByRole?id=' + id, { headers: header })
       .map(res => res.json())
@@ -149,7 +147,7 @@ export class AuthService {
   //getRegions
   getRegions() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Location/GetRegions?Id=0', { headers: header })
       .map(res => res.json())
@@ -158,7 +156,7 @@ export class AuthService {
   createUser(user) {
     let body = user
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.post('http://ssuservices.aheadrace.com:8083/api/User/CreateUser', body, { headers: header })
       .map(res => res.json())
@@ -167,7 +165,7 @@ export class AuthService {
   //GetProductsByProductCategoryId
   GetProductsByProductCategoryId(Id) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Product/GetProductsByProductCategoryId?Id=' + Id, { headers: header })
       .map(res => res.json())
@@ -176,7 +174,7 @@ export class AuthService {
   //ClassOfSeed
   GetProductClassList() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get('http://ssuservices.aheadrace.com:8083/api/Product/GetProductClassList?id=0', { headers: header })
       .map(res => res.json())
@@ -186,7 +184,7 @@ export class AuthService {
   RegisterInspection(regestrationDetails) {
     let body = regestrationDetails
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.post('http://ssuservices.aheadrace.com:8083/api/Admin/RegisterInspection', body, { headers: header })
       .map(res => res.json())
@@ -195,7 +193,7 @@ export class AuthService {
   //GetRegistrationsByUser
   GetRegistrationsByUser(mode, userId) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get(`http://ssuservices.aheadrace.com:8083/api/Admin/GetRegistrationsByUser?mode=${mode}&userId=${userId}`, { headers: header })
       .map(res => res.json())
@@ -205,7 +203,7 @@ export class AuthService {
   AssignInspector(assignDetails) {
     let body = assignDetails;
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.post('http://ssuservices.aheadrace.com:8083/api/Admin/AssignInspector', body, { headers: header })
       .map(res => res.json())
@@ -214,7 +212,7 @@ export class AuthService {
   //GetObservationsByUser
   GetObservationsByUser(mode,userId) {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get(`http://ssuservices.aheadrace.com:8083/api/Admin/GetObservationsByUser?mode=${mode}&userId=${userId}`, { headers: header })
       .map(res => res.json())
@@ -223,7 +221,7 @@ export class AuthService {
   //GetGrowersWithOpenRegistrations
   GetGrowersWithOpenRegistrations(){
     let token = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(token)
+    // console.log(token)
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json" })
     return this._http.get(`http://ssuservices.aheadrace.com:8083/api/User/GetGrowersWithOpenRegistrations`, { headers: header })
       .map(res => res.json())

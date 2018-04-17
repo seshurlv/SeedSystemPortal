@@ -131,58 +131,83 @@ export class RegisterComponent implements OnInit {
         .subscribe(res => {
           console.log(JSON.stringify(res))
           this.GrowersArr = res;
+
+          if (this.GrowersArr) {
+            this.authService.GetProductCategory()
+              .subscribe(res => {
+                console.log(JSON.stringify(res))
+                this.prodCategoryArr = res
+
+                if (this.prodCategoryArr) {
+                  this.authService.GetProductClassList()
+                    .subscribe(res => {
+                      console.log(JSON.stringify(res))
+                      this.seedClassArr = res
+                    })
+                }
+
+              })
+          }
+
         })
 
 
-      this.authService.GetProductCategory()
-        .subscribe(res => {
-          console.log(JSON.stringify(res))
-          this.prodCategoryArr = res
-        })
 
-      this.authService.GetProductClassList()
-        .subscribe(res => {
-          console.log(JSON.stringify(res))
-          this.seedClassArr = res
-        })
+
+
 
     } else {
       this.title = 'Register Form';
+
       this.authService.getCountries()
         .subscribe(res => {
           this.countriesArr = res
-          console.log(JSON.stringify(this.countriesArr))
+          console.log('get Countries API ' + JSON.stringify(this.countriesArr))
           if (res) {
             this.authService.getStates()
               .subscribe(stateRes => {
                 this.statesArr = stateRes
-                console.log(JSON.stringify(this.statesArr))
+                console.log('get States API ' + JSON.stringify(this.statesArr))
                 if (stateRes) {
                   this.authService.getRegions()
                     .subscribe(regionRes => {
                       this.regionsArr = regionRes
-                      console.log(JSON.stringify(this.regionsArr))
+                      console.log('get States API ' + JSON.stringify(this.regionsArr))
+                    }, error => {
+                      console.log('get Regions ERR API ', error)
                     })
                 }
+              }, error => {
+                console.log('get States ERR API ', error)
               })
           }
+        }, error => {
+
+          console.log('Get Countries ERR API ', error)
         })
 
 
 
 
-
-      this.authService.GetDistricts()
-        .subscribe(res => {
-          // console.log(JSON.stringify(res))
-          this.districtsArr = res
-        })
 
       this.authService.getRoles()
         .subscribe(res => {
-          //console.log(res)
+          console.log('getRoles API' + JSON.stringify(res))
           this.RolesArr = res
+          if (this.RolesArr) {
+            this.authService.GetDistricts()
+              .subscribe(res => {
+                console.log('Get Districts API ' + JSON.stringify(res))
+                this.districtsArr = res
+              }, error => {
+                console.log('Get Districts ERR API ', error)
+              })
+          }
+        }, error => {
+          console.log('getRoles ERR API', error)
         })
+
+
     }
 
 
@@ -347,27 +372,27 @@ export class RegisterComponent implements OnInit {
           }
         })
     }
-    
 
-   
 
-    
 
-    console.log('this.user '+ JSON.stringify( this.user))
+
+
+
+    console.log('this.user ' + JSON.stringify(this.user))
 
     //console.log('onRegister', JSON.stringify(InsReg))
   }
 
-  clearUserDetails(){
+  clearUserDetails() {
     this.user = {
       FirstName: null,
       LastName: null,
       Email: null,
       Mobile: null,
       UserName: null,
-      Password:null,
+      Password: null,
       PostalCode: null,
-      AddressLine1:null,
+      AddressLine1: null,
       Address: {
         District: {
           DistrictName: null
@@ -385,7 +410,7 @@ export class RegisterComponent implements OnInit {
           RegionName: null
         },
         State: {
-          StateName:null
+          StateName: null
         }
       }
     }

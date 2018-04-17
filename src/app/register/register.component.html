@@ -37,21 +37,21 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">First Name*
                                             </label>
-                                            <input class="form-control" type="text" [(ngModel)]="user.FirstName" formControlName="firstname">
+                                            <input class="form-control" type="text" [(ngModel)]="user.FirstName" formControlName="firstname" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label" for="">Middle Name
                                             </label>
-                                            <input class="form-control" type="text" [(ngModel)]="user.MiddleName" formControlName="middlename">
+                                            <input class="form-control" type="text" [(ngModel)]="user.MiddleName" formControlName="middlename" placeholder="Middle Name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label" for="">Last Name*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user.LastName" formControlName="lastname" type="text">
+                                            <input class="form-control" [(ngModel)]="user.LastName" formControlName="lastname" type="text"  placeholder="Last Name">
                                         </div>
                                     </div>
                                 </div>
@@ -61,14 +61,14 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">Email*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user.Email" formControlName="email" type="email">
+                                            <input class="form-control" formControlName="email"  placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label" for="">Mobile*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user.MobileNumber" formControlName="mobile" type="tel">
+                                            <input class="form-control" [(ngModel)]="user.MobileNumber" formControlName="mobile" type="number" placeholder="Mobile">
                                         </div>
                                     </div>
                                 </div>
@@ -78,14 +78,14 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">User Name*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user.UserName" formControlName="username" type="text">
+                                            <input class="form-control" [(ngModel)]="user.UserName" formControlName="username" type="text" placeholder="User Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label" for="">Password*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user.Password" formControlName="password" type="password">
+                                            <input class="form-control" [(ngModel)]="user.Password" formControlName="password" type="password" placeholder="Password">
                                         </div>
                                     </div>
                                 </div>
@@ -206,14 +206,14 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">PO Box*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user?.Address.PostalCode" formControlName="pobox" type="text">
+                                            <input class="form-control" [(ngModel)]="user?.Address.PostalCode" formControlName="pobox" type="number" placeholder="Post Box">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label" for="">Village*
                                             </label>
-                                            <input class="form-control" [(ngModel)]="user?.Address.AddressLine1" formControlName="village" type="text">
+                                            <input class="form-control" [(ngModel)]="user?.Address.AddressLine1" formControlName="village" type="text" placeholder="Village">
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +271,7 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">Area(hectares)*
                                             </label>
-                                            <input class="form-control" formControlName="area" type="text">
+                                            <input class="form-control" formControlName="area" type="text" placeholder="Area in hectares">
                                         </div>
                                     </div>
                                 </div>
@@ -316,16 +316,16 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" for="">Expeced Date of planting*
+                                            <label class="control-label" for="">Expected Date of planting*
                                             </label>
-                                            <input class="form-control" formControlName="plantingdate" type="date">
+                                            <input class="form-control" formControlName="plantingdate" type="date" placeholder="Expected Date of planting">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" for="">Lot No of the seed*
+                                            <label class="control-label" for="">Lot Number*
                                             </label>
-                                            <input class="form-control" formControlName="lotno" type="text">
+                                            <input class="form-control" formControlName="lotno" type="text" placeholder="Lot Number">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -384,7 +384,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">Map</label>
-                                            <input class="form-control" formControlName="map" type="text">
+                                            <input class="form-control" formControlName="map" type="text" placeholder="Map">
                                         </div>
                                     </div>
                                 </div>
@@ -392,7 +392,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="">Remarks
                                     </label>
-                                    <textarea class="form-control" formControlName="remarks" type="textarea"></textarea>
+                                    <textarea class="form-control" formControlName="remarks" type="textarea" placeholder="Remarks"></textarea>
                                 </div>
 
 
