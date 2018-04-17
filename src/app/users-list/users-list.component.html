@@ -1,0 +1,36 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div id="loader" *ngIf="dataRows?.length == 0">
+            <img src="assets/img/loader-preview.svg" alt="loading">
+        </div>
+        <div class="row" *ngIf="dataRows?.length != 0">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Users List</h4>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let cell of tableData1.headerRow">{{ cell }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of dataRows">
+                                    <td>{{row.UserID}}</td>
+                                    <td>{{row.FirstName}}</td>
+                                    <td>{{row.LastName}}</td>
+                                    <td>{{row.Role.Name}}</td>
+                                    <td>{{row.MobileNumber}}</td>
+                                    <td>{{row.Email}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

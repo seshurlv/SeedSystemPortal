@@ -1,0 +1,319 @@
+<div class="wrapper" *ngIf="ifLogin">
+    <div class="sidebar" data-color="green" data-image="">
+        <app-sidebar></app-sidebar>
+        <div class="sidebar-background" style="background-image: url(/assets/img/sidebar-5.jpg)"></div>
+    </div>
+
+    <div class="main-panel">
+        <navbar-cmp></navbar-cmp>
+        <router-outlet></router-outlet>
+        <div *ngIf="isMap('maps')">
+            <footer-cmp></footer-cmp>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="wrapper wrapper-full-page" *ngIf="!ifLogin">
+    <div class="full-page login-page" data-color="green" data-image="#">
+
+        <div class="content" *ngIf="!showSignup">
+            <div class="container">
+                <div class="row" *ngIf="Alert">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="alert alert-info alert-dismissible" style="text-align: center;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Sucess!</strong> user sucessfully created. lonin now
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                        <form [formGroup]="signin" (ngSubmit)="doLogin()">
+                            <div class="card">
+                                <div class="header text-center" *ngIf="!showSignup">Sign in</div>
+                                <div class="content">
+                                    <div class="form-group">
+                                        <label>User Name</label>
+                                        <input class="form-control" placeholder="Enter Name" type="text" formControlName="userName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input class="form-control" placeholder="Password" type="password" formControlName="password">
+                                    </div>
+                                    <p class="err-msg" *ngIf="errMsg">Invalid username/password</p>
+                                </div>
+
+                                <div class="footer text-center">
+
+                                    <button class="btn btn-fill btn-success  btn-wd" type="submit" [disabled]="!signin.valid">Sign in</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" data-toggle="modal" data-target="#exampleModalCenter">
+                                        <h5 class="forget-pwd">Forgot Password?</h5>
+                                    </div>
+                                    <div class="col-md-6" (click)="showSignup = !showSignup">
+                                        <h5 class="forget-pwd">Sign Up/Register</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content signup-content" *ngIf="showSignup">
+            <div class="container">
+                <div class="row" *ngIf="errSignUpAlert">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="alert alert-danger alert-dismissible" style="text-align: center;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Failed!</strong> creating user. please try again
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-sm-6 col-md-offset-2 col-sm-offset-3">
+                        <form [formGroup]="signup" (ngSubmit)="onRegister()">
+                            <div class="card">
+                                <div class="header text-center">Sign up</div>
+
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">First Name:
+                                                </label>
+                                                <input class="form-control" type="text" [(ngModel)]="user.FirstName" formControlName="firstname">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Middle Name:
+                                                </label>
+                                                <input class="form-control" type="text" [(ngModel)]="user.MiddleName" formControlName="middlename">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Last Name:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.LastName" formControlName="lastname" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Email:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.Email" formControlName="email" type="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Mobile:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.Mobile" formControlName="mobile" type="tel">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">User Name:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.UserName" formControlName="username" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Password
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.Password" formControlName="password" type="password">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">District</label>
+                                                <select class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId" (change)="selectDistrict(user.districtId)">
+                                                    <option *ngFor="let district of districtsArr" [ngValue]="district">
+                                                        {{district.DistrictName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">EPA</label>
+                                                <select class="form-control custom-select" formControlName="epas" [(ngModel)]="user.epaId" (change)="selectEpa(user.epaId)"
+                                                    [disabled]="epaArray?.length == 0">
+                                                    <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
+                                                        {{epa.EPAName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Section</label>
+                                                <select class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
+                                                    [disabled]="sectionArray?.length == 0">
+
+                                                    <option *ngFor="let section of sectionArray" [ngValue]="section">
+                                                        {{section.SectionName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Country</label>
+                                                <select class="form-control custom-select" formControlName="countries" [(ngModel)]="user.country" (change)="selectCountry(user.country)">
+                                                    <option *ngFor="let countries of countriesArr" [ngValue]="countries">
+                                                        {{countries.CountryName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">State</label>
+                                                <select class="form-control custom-select" formControlName="states" [(ngModel)]="user.state" (change)="selectState(user.state)">
+                                                    <option selected *ngFor="let states of statesArr" [ngValue]="states">
+                                                        {{states.StateName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Region</label>
+                                                <select class="form-control custom-select" formControlName="regions" [(ngModel)]="user.region" (change)="selectRegion(user.region)">
+
+                                                    <option *ngFor="let regions of regionsArr" [ngValue]="regions">
+                                                        {{regions.RegionName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">PO Box:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.Pobox" formControlName="pobox" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Village:
+                                                </label>
+                                                <input class="form-control" [(ngModel)]="user.Village" formControlName="village" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <fieldset>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="">Address Of The Farm:
+                                                            </label>
+                                                            <input class="form-control" [(ngModel)]="user.Address" formControlName="farmAddresss" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="">Farm Contact Number
+                                                            </label>
+                                                            <input class="form-control" [(ngModel)]="user.FarmContact" formControlName="farmmobile" type="tel">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset> -->
+
+                                </div>
+                                <div class="footer text-center">
+
+                                    <button class="btn btn-fill btn-success btn-wd" type="submit" [disabled]="!signup.valid">Sign up</button>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-8" (click)="showSignup = !showSignup">
+                                        <h5 class="forget-pwd">Sign in</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="full-page-background" style="background-image: url(&quot;../../../assets/img/full-screen-image-1.jpg&quot;)"></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Account recovery</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">User Name:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Email:</label>
+                        <input type="email" class="form-control">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="forgotPwd()" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

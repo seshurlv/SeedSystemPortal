@@ -1,0 +1,276 @@
+<div class="content" style="    padding: 30px 15px;">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-11">
+                <div class="card">
+                    <form [formGroup]="form" (ngSubmit)="onRegister()">
+                        <div class="header">Inpection Registration Form</div>
+
+                        <div class="content">
+
+                            <div class="form-group">
+                                <label class="control-label">Growers List</label>
+                                <select class="form-control custom-select" [(ngModel)]="growerName" (change)="selectGrower(growerName)" formControlName="grower">
+                                    <option *ngFor="let grower of GrowersArr" [ngValue]="grower.FirstName">
+                                        {{grower.FirstName}}
+                                    </option>
+                                </select>
+                            </div>
+                            
+
+                            <!-- <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">First Name:
+                                        </label>
+                                        <input class="form-control" type="text" formControlName="firstname">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">Last Name:
+                                        </label>
+                                        <input class="form-control" formControlName="lastname" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">Email Address:
+                                        </label>
+                                        <input class="form-control" formControlName="email" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">Mobile:
+                                        </label>
+                                        <input class="form-control" formControlName="mobile" type="tel">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">User Name:
+                                        </label>
+                                        <input class="form-control" formControlName="username" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="">Password
+                                        </label>
+                                        <input class="form-control" formControlName="password" type="password">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <fieldset [disabled]="!(roleId == 4)">
+                                <div class="form-group">
+                                    <label class="control-label" for="">Address Of The Farm:
+                                    </label>
+                                    <input class="form-control" formControlName="farmAddresss" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label" for="">PO Box:
+                                    </label>
+                                    <input class="form-control" formControlName="pobox" type="text">
+                                </div>
+
+                                <div>
+                                    <div col-md-6>
+                                        <div class="form-group">
+                                            <label class="control-label" for="">Village:
+                                            </label>
+                                            <input class="form-control" formControlName="village" type="text">
+                                        </div>
+                                    </div>
+                                    <div col-md-6>
+                                        <div class="form-group">
+                                            <label class="control-label" for="">Farm Contact Number
+                                            </label>
+                                            <input class="form-control" formControlName="farmmobile" type="tel">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">District</label>
+                                            <select class="form-control custom-select" formControlName="districts" [(ngModel)]="districtId" (change)="selectDistrict(districtId)">
+                                                <option *ngFor="let district of districtsArr" [ngValue]="district.DistrictID">
+                                                    {{district.DistrictName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">EPA</label>
+                                            <select class="form-control custom-select" formControlName="epas" [(ngModel)]="epaId" (change)="selectEpa(epaId)" [disabled]="epaArray?.length == 0">
+                                                <option selected *ngFor="let epa of epaArray" [value]="epa.ID">
+                                                    {{epa.EPAName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Section</label>
+                                            <select class="form-control custom-select" formControlName="sections" [(ngModel)]="sectionId" (change)="selectSection(sectionId)" [disabled]="sectionArray?.length == 0">
+
+                                                <option *ngFor="let section of sectionArray" [ngValue]="section.ID">
+                                                    {{section.SectionName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </fieldset> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Crop Species</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Variety</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="">Area(hectares)
+                                </label>
+                                <input class="form-control" name="area" type="number">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="">Expeced Date of planting
+                                </label>
+                                <input class="form-control" name="plantingdate" type="date">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Class Of Seed</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Source Of Seed</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Certificate ID of the Source Seed</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="">Lot No of the seed
+                                </label>
+                                <input class="form-control" name="lotNo" type="date">
+                            </div>
+
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text">Previous Cropping History</label>
+                                </div>
+                                <select class="custom-select" [(ngModel)]="section" name="section">
+                                    <option selected *ngFor="let section of sectionArray" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="">Remarks
+                                </label>
+                                <input class="form-control" name="remarks" type="date">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="">Evidence of the seed
+                                </label>
+                                <input class="form-control" name="remarks" type="date">
+                            </div> -->
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                        <div class="footer">
+                            <button class="btn btn-info btn-fill pull-right" type="submit">Register</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>

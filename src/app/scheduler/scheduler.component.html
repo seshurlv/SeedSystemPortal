@@ -1,0 +1,143 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <div id="loader" *ngIf="SchedulerArr?.length == 0">
+      <img src="assets/img/loader-preview.svg" alt="loading">
+    </div>
+
+    <div class="row" *ngIf="SchedulerArr?.length != 0">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="title">Scheduler List</h4>
+              </div>
+              <div class="col-md-4" style="text-align: right; color: #8bbd3a; font-size: 34px">
+                <i class="fas fa-plus-circle" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;"></i>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                    <th>Grower Name
+                    </th>
+                  <!-- <th  style="cursor:pointer;" (click)="sortGrower(sortgrower)" >Grower Name
+                      <i class="fas fa-chevron-up" *ngIf="sortgrower"></i>
+                      <i class="fas fa-chevron-down" *ngIf="!sortgrower"></i>
+                  </th> -->
+                  <th >Inspector Name
+                      <!-- <i class="fas fa-chevron-up"></i> -->
+                  </th>
+                  <th>Seed Class</th>
+                  <th>Crop Name</th>
+                  <th>Varient Name</th>
+                  <th>Status</th>
+                  <th style="cursor:pointer;" (click)="toogleArrow(arrow)">Assigned Date
+                      <i class="fas fa-chevron-up" *ngIf="arrow"></i>
+                      <i class="fas fa-chevron-down" *ngIf="!arrow"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Scheduler of SchedulerArr | reverse:arrow:sortgrower">
+                  <td>{{Scheduler.GrowerName}}</td>
+                  <td>{{Scheduler.InspectorName}}</td>
+                  <td>{{Scheduler?.ProductClass.ClassName}}</td>
+                  <td>{{Scheduler.ProductCategory.ProductCategoryName}}</td>
+                  <td>{{Scheduler.Product.ProductName}}</td>
+                  <td>{{Scheduler.Status}}</td>
+                  <td>{{Scheduler.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Schedule Inspection </h5>
+        <button type="button" class="close" (click)="onCancel()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <label class="control-label">Growers List*</label>
+            <select class="form-control custom-select" [(ngModel)]="user" (change)="selectGrower()" formControlName="grower">
+
+              <option *ngFor="let grower of GrowersArr" [ngValue]="grower">
+                {{grower.FirstName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="content table-responsive table-full-width" *ngIf="unAssignedListArr.length != 0">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th *ngFor="let cell of tableData2.headerRow">{{ cell }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let unAssignedList of unAssignedListArr">
+
+                  <td>
+
+                    <!-- <input type="radio"  formControlName="unAssignedList" (change)="doalert(unAssignedList)"> -->
+                    <input id="enum_answer_{{unAssignedList.ID}}" [value]='unAssignedList.ID' type="radio" formControlName="unAssignedLists"
+                      [(ngModel)]="radioSelected" (change)="doalert(radioSelected)">
+
+                    <!-- <input type="checkbox" id="cb" (click)="doalert(unAssignedList)" formControlName="unAssignedList"/> -->
+
+                    <!-- <input type="checkbox" name="unAssignedList" id="cb"  (change)="doalert(this)" /> -->
+                  </td>
+                  <td>{{unAssignedList.ID}}</td>
+                  <td>{{unAssignedList.ProductCategory.ProductCategoryName}}</td>
+                  <td>{{unAssignedList.ProductClass.ClassName}}</td>
+                  <td>{{unAssignedList.Product.ProductName}}</td>
+                  <td>{{unAssignedList.Status}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Para Seed Inspector*</label>
+            <select class="form-control custom-select" [(ngModel)]="psi" (change)="selectPsi()" formControlName="psi">
+
+              <option *ngFor="let psi of PSIArr" [ngValue]="psi">
+                {{psi.FirstName}} &nbsp; {{psi.LastName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="onCancel()" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="onAssign()" data-dismiss="modal" [disabled]="!radioSelected || !form.valid">Assign</button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
