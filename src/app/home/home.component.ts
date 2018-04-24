@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { LegendItem, ChartType } from '../lbd/lbd-chart/lbd-chart.component';
 import * as Chartist from 'chartist';
+import { AuthService } from '../../services/auth-service.service'
 
 @Component({
   selector: 'app-home',
@@ -24,101 +25,212 @@ export class HomeComponent implements OnInit {
   public activityChartOptions: any;
   public activityChartResponsive: any[];
   public activityChartLegendItems: LegendItem[];
+
   growersList
   tableData1
-  constructor() { }
+  AdminpieChartData
+  AdminBarChartData
+  AdminDonutChartData
+
+  TlpieChartData
+  TlBarChartData
+  TlDonutChartData
+  AdminBarChartDataForDistrict
+
+  PsiBarChartDataForDistrict
+  PsiPieChartDataForDistrict
+  Role
+  FilterdStats = []
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.emailChartType = ChartType.Pie;
-    this.emailChartData = {
-      labels: ['62%', '32%', '6%'],
-      series: [62, 32, 6]
-    };
-    this.emailChartLegendItems = [
-      { title: 'Certified', imageClass: 'fa fa-circle text-info' },
-      { title: 'Rejected', imageClass: 'fa fa-circle text-danger' },
-      { title: 'InProgress', imageClass: 'fa fa-circle text-warning' }
-    ];
 
-    this.hoursChartType = ChartType.Line;
-    this.hoursChartData = {
-      labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-      series: [
-        [287, 385, 490, 492, 554, 586, 698, 695, 752, 788, 846, 944],
-        [67, 152, 143, 240, 287, 335, 435, 437, 539, 542, 544, 647],
-        [23, 113, 67, 108, 190, 239, 307, 308, 439, 410, 410, 509]
-      ]
-    };
-    this.hoursChartOptions = {
-      low: 0,
-      high: 800,
-      showArea: true,
-      height: '245px',
-      axisX: {
-        showGrid: false,
-      },
-      lineSmooth: Chartist.Interpolation.simple({
-        divisor: 3
-      }),
-      showLine: false,
-      showPoint: false,
-    };
-    this.hoursChartResponsive = [
-      ['screen and (max-width: 640px)', {
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    this.hoursChartLegendItems = [
-      { title: 'Open', imageClass: 'fa fa-circle text-info' },
-      { title: 'Click', imageClass: 'fa fa-circle text-danger' },
-      { title: 'Click Second Time', imageClass: 'fa fa-circle text-warning' }
-    ];
+    this.Role = JSON.parse(window.localStorage.getItem('Role'));
+    console.log(this.Role)
 
-    this.activityChartType = ChartType.Bar;
-    this.activityChartData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-        [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
-      ]
-    };
-    this.activityChartOptions = {
-      seriesBarDistance: 10,
-      axisX: {
-        showGrid: false
-      },
-      height: '245px'
-    };
-    this.activityChartResponsive = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
+    if (this.Role == 2) {
+      this.authService.GetAreaPerCrop()
+        .subscribe(res => {
+          var CropArea = [];
+          CropArea[0] = ['CropName', 'CropArea'];
+          for (var i = 0; i < res.length; i++) {
+            console.log(CropArea)
+            CropArea[i + 1] = [res[i].CropName, res[i].CropArea];
           }
+
+          if (CropArea) {
+            this.FilterdStats = CropArea.filter(Boolean);
+            console.log(JSON.stringify(CropArea))
+            this.TlpieChartData = {
+              chartType: 'PieChart',
+              dataTable: this.FilterdStats,
+              options: { 'title': 'Area Cultivated Per Each Crop (Hectors)', 'width': 500, 'height': 400 }
+            };
+          }
+        })
+
+      
+
+      this.authService.GetRegistrationPerCrop()
+        .subscribe(res => {
+          console.log(JSON.stringify(res))
+          var CropGrown = [];
+          CropGrown[0] = ['CropName', 'RegistrationCount'];
+
+          for (var i = 0; i < res.length; i++) {
+            CropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
+          }
+
+          if (CropGrown) {
+            console.log(JSON.stringify(CropGrown))
+            this.TlDonutChartData = {
+              chartType: 'PieChart',
+              dataTable: CropGrown,
+              options: { 'title': 'Registrations Per Crop - 2018', 'width': 500, 'height': 400, pieHole: 0.4 },
+            };
+          }
+        })
+
+        this.authService.GetRegistrationStats()
+        .subscribe(res => {
+          console.log(JSON.stringify(res))
+          var Combined = [];
+          Combined[0] = ['Month', 'Registration Count', 'Inspected Count'];
+
+          for (var i = 0; i < res.length; i++) {
+            // console.log(JSON.stringify(Combined))
+            Combined[i + 1] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
+            // if (res[i].RegistrationCount != 0) {
+            //   Combined[i] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
+            //   console.log(JSON.stringify(Combined[i]))          
+            // }
+          }
+
+          if (Combined) {
+            this.FilterdStats = Combined.filter(Boolean);
+            console.log(JSON.stringify(Combined))
+            this.TlBarChartData = {
+              chartType: 'ColumnChart',
+              dataTable: this.FilterdStats,
+              options: { 'title': 'Registrations VS Inspections - 2018', 'width': 1000, 'height': 400 }
+            }
+
+          }
+        })
+
+    }
+
+    if(this.Role == 1){
+      this.authService.GetUserRegistrationsPerMonth()
+      .subscribe(res => {
+        console.log(JSON.stringify(res))
+        var RegPerMonth = [];
+        RegPerMonth[0] = ['Month', 'User Registration Count'];
+        for (var i = 0; i < res.length; i++) {
+          RegPerMonth[i + 1] = [res[i].Month, res[i].UserRegistrationCount];
         }
-      }]
-    ];
-    this.activityChartLegendItems = [
-      { title: 'Inspection', imageClass: 'fa fa-circle text-info' },
-      { title: 'Sample Test', imageClass: 'fa fa-circle text-danger' }
-    ];
+
+        if(RegPerMonth){
+          console.log(JSON.stringify(RegPerMonth))
+          this.AdminBarChartData = {
+            chartType: 'ColumnChart',
+            dataTable: RegPerMonth,
+            options: { 'title': 'New User Registrations Per Month - 2018','width': 1000, 'height': 400},
+          };
+        }
+      })
+
+
+      this.authService.GetRegistrationPerCrop()
+        .subscribe(res => {
+          console.log(JSON.stringify(res))
+          var CropGrown = [];
+          CropGrown[0] = ['CropName', 'RegistrationCount'];
+          for (var i = 0; i < res.length; i++) {
+            CropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
+          }
+
+          if (CropGrown) {
+            console.log(JSON.stringify(CropGrown))
+            this.AdminpieChartData = {
+              chartType: 'PieChart',
+              dataTable: CropGrown,
+              options: { 'title': 'Inspection Registrations Per Crop - 2018','width': 500, 'height': 400},
+            };
+          }
+        })
+
+
+        this.authService.GetUserPerDistrict()
+        .subscribe(res => {
+          console.log(JSON.stringify(res))
+          var userDist = [];
+          userDist[0] = ['DistrictName', 'User Registration Count'];
+
+          for (var i = 0; i < res.length; i++) {
+            userDist[i + 1] = [res[i].DistrictName, res[i].UserRegistrationCount];
+          }
+
+          if (userDist) {
+            console.log(JSON.stringify(userDist))
+            this.AdminBarChartDataForDistrict = {
+              chartType: 'ColumnChart',
+              dataTable: userDist,
+              options: { 'title': 'Registered Users Per District','width': 500, 'height': 400},
+            };
+          }
+        })
+
+    }
+
+    if(this.Role == 3){
+
+      this.authService.GetInspectedGrowersPerMonth()
+      .subscribe(res => {
+        var GrowersPerMonth = [];
+        GrowersPerMonth[0] = ['Month', 'Inspected Count'];
+
+        for (var i = 0; i < res.length; i++) {
+          GrowersPerMonth[i + 1] = [res[i].Month, res[i].InspectedCount];
+        }
+
+        if (GrowersPerMonth) {
+          console.log(JSON.stringify(GrowersPerMonth))
+          this.PsiBarChartDataForDistrict = {
+            chartType: 'ColumnChart',
+            dataTable: GrowersPerMonth,
+            options: { 'title': 'Inspected Growers Per Month - 2018', 'width': 1000, 'height': 400 },
+          };
+        }
+
+      })
+
+
+      this.authService.GetInspectorStats()
+      .subscribe(res => {
+        var InspectorStats = [];
+        InspectorStats[0] = ['Status', 'Count'];
+
+        for (var i = 0; i < res.length; i++) {
+          InspectorStats[i + 1] = [res[i].Status, res[i].Count];
+        }
+
+        if (InspectorStats) {
+          console.log(JSON.stringify(InspectorStats))
+          this.PsiPieChartDataForDistrict = {
+            chartType: 'PieChart',
+            dataTable: InspectorStats,
+            options: { 'title': 'Assigned Vs Inspected for the year 2018', 'width': 500, 'height': 400,},
+          };
+        }
+
+      })
+    }
+
 
     this.tableData1 = {
       headerRow: ['Grower Name', 'Farm Address', 'Previous Crop', 'Crop Grown', 'Variety',
         'HA', 'Projected Output', 'Seed Issued', 'Company', 'Seed Source'],
-      // dataRows: [
-      //   ['1', 'Dakota Rice', 'Niger', 'Oud-Turnhout', '$36,738'],
-      //   ['2', 'Minerva Hooper', 'Curaçao', 'Sinaai-Waas', '$23,789'],
-      //   ['3', 'Sage Rodriguez', 'Netherlands', 'Baileux', '$56,142'],
-      //   ['4', 'Philip Chaney', 'Korea, South', 'Overland Park', '$38,735'],
-      //   ['5', 'Doris Greene', 'Malawi', 'Feldkirchen in Kärnten', '$63,542'],
-      //   ['6', 'Mason Porter', 'Chile', 'Gloucester', '$78,615']
-      // ]
     };
 
     this.growersList = [{
@@ -132,9 +244,7 @@ export class HomeComponent implements OnInit {
       "SeedIssued": "Basic",
       "Company": "ICRISAT-MSIDP",
       "SeedSource": "ICRISAT"
-    },
-
-    {
+    }, {
       "GrowerName": "Osborn Sibande",
       "FarmAddress": "Lilongwe - Namitete",
       "PreviousCrop": "Maize",

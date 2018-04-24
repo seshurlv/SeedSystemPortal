@@ -254,7 +254,7 @@
 }
 
 .indentation {
-    margin-left: 60px;
+    margin-left: 20px;
 }
 
 .full-page .full-page-background {
@@ -638,4 +638,33 @@ label {
 .sidebar .logo .simple-text, .bootstrap-navbar .logo .simple-text{
     font-size: 22px;
     margin-top: 4px; 
+    cursor: pointer;
 }
+
+.navbar .navbar-brand{
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+
+svg > g > g:last-child { pointer-events: none }
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.modal-header{
+    background: #A5D75A;
+color: #fff;
+}
+
+.modal-title{
+    float: left;
+}
+
+.googleChart {
+    width: 100%; 
+    min-height: 450px;
+  }

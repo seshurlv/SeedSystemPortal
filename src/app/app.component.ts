@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators , FormControl} from '@angular/forms';
 import { AuthService } from '../services/auth-service.service'
 
 @Component({
@@ -27,7 +27,9 @@ export class AppComponent implements OnInit {
   countriesArr = [];
   statesArr = [];
   regionsArr = [];
-
+  mobnumPattern
+  poBoxPattern
+  emailPattern
   constructor(public location: Location,
     private router: Router,
     private fb: FormBuilder,
@@ -38,23 +40,28 @@ export class AppComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.signup = this.fb.group({
-      firstname: ['', Validators.required],
-      middlename: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: ['', Validators.required],
-      mobile: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      pobox: ['', Validators.required],
-      village: ['', Validators.required],
-      districts: ['', Validators.required],
-      epas: ['', Validators.required],
-      sections: ['', Validators.required],
-      countries: ['', Validators.required],
-      states: ['', Validators.required],
-      regions: ['', Validators.required]
-    });
+    this.mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
+    this.poBoxPattern = "^[0-9_-]{3,6}$";
+    this.emailPattern = "^[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    this.signup = new FormGroup({
+      firstname: new FormControl('', Validators.required),
+      middlename: new FormControl(''),
+      lastname: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.emailPattern)])),
+      mobile: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern(this.mobnumPattern)])),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      pobox: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern(this.poBoxPattern)])),
+      village: new FormControl('', Validators.required),
+      districts: new FormControl('', Validators.required),
+      epas: new FormControl('', Validators.required),
+      sections: new FormControl('', Validators.required),
+      countries: new FormControl('', Validators.required),
+      states: new FormControl('', Validators.required),
+      regions: new FormControl('', Validators.required),
+    })
+
+   
 
     this.user = {
       FirstName: '',

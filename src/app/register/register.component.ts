@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service.service'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +11,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
   sucessAlert: boolean = false
   failureAlert: boolean = false
+  RegsucessAlert: boolean = false
+  RegfailureAlert: boolean = false
+
+  toastTitle
   form
   Inspform
   sectionArray = [];
@@ -45,45 +49,69 @@ export class RegisterComponent implements OnInit {
   sectionId
   inspection
   title
-
+  mobnumPattern
   user: any;
-  constructor(private authService: AuthService, private router: Router,
-    private fb: FormBuilder, ) {
-    this.form = this.fb.group({
-      grower: [''],
-      role: [''],
-      firstname: ['', Validators.required],
-      middlename: ['',],
-      lastname: ['', Validators.required],
-      email: ['', Validators.required],
-      mobile: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      pobox: ['', Validators.required],
-      village: ['', Validators.required],
-      districts: ['', Validators.required],
-      epas: ['', Validators.required],
-      sections: ['', Validators.required],
-      countries: ['', Validators.required],
-      states: ['', Validators.required],
-      regions: ['', Validators.required]
-    });
+  poBoxPattern
+  decimalPattern
+  emailPattern
+  constructor(private authService: AuthService, private router: Router) {
+      this.mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
+      this.poBoxPattern = "^[0-9_-]{3,6}$";
+      this.decimalPattern = "^[0-9]+(.[0-9]{0,2})?$";
+      this.emailPattern = "^[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 
-    this.Inspform = this.fb.group({
-      product: ['', Validators.required],
-      productCategory: ['', Validators.required],
-      area: ['', Validators.required],
-      plantingdate: ['', Validators.required],
-      seedclass: ['', Validators.required],
-      seedsource: ['', Validators.required],
-      certificateid: [''],
-      lotno: ['', Validators.required],
-      crophis: ['',],
-      remarks: [''],
-      seedevidence: ['', Validators.required],
-      map: [''],
-      payment: [''],
+    this.form = new FormGroup({
+      grower: new FormControl(''),
+      role: new FormControl(''),
+      firstname: new FormControl('', Validators.required),
+      middlename: new FormControl(''),
+      lastname: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.emailPattern)])),
+      mobile: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern(this.mobnumPattern)])),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      pobox: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern(this.poBoxPattern)])),
+      village: new FormControl('', Validators.required),
+      districts: new FormControl('', Validators.required),
+      epas: new FormControl('', Validators.required),
+      sections: new FormControl('', Validators.required),
+      countries: new FormControl('', Validators.required),
+      states: new FormControl('', Validators.required),
+      regions: new FormControl('', Validators.required),
     })
+
+  
+
+    this.Inspform = new FormGroup({
+      product: new FormControl('', Validators.required),
+      productCategory: new FormControl('', Validators.required),
+      area: new FormControl('',Validators.compose([Validators.required, Validators.pattern(this.decimalPattern)])),
+      plantingdate: new FormControl('', Validators.required),
+      seedclass: new FormControl('', Validators.required),
+      seedsource: new FormControl('', Validators.required),
+      certificateid: new FormControl(''),
+      lotno: new FormControl('', Validators.required),
+      crophis: new FormControl(''),
+      remarks: new FormControl(''),
+      seedevidence: new FormControl('', Validators.required),
+      map: new FormControl(''),
+      payment: new FormControl(''),
+    })
+    // this.Inspform = this.fb.group({
+    //   product: ['', Validators.required],
+    //   productCategory: ['', Validators.required],
+    //   area: ['', Validators.required],
+    //   plantingdate: ['', Validators.required],
+    //   seedclass: ['', Validators.required],
+    //   seedsource: ['', Validators.required],
+    //   certificateid: [''],
+    //   lotno: ['', Validators.required],
+    //   crophis: ['',],
+    //   remarks: [''],
+    //   seedevidence: ['', Validators.required],
+    //   map: [''],
+    //   payment: [''],
+    // })
 
 
 
@@ -311,11 +339,22 @@ export class RegisterComponent implements OnInit {
     this.authService.createUser(user)
       .subscribe(res => {
         console.log(JSON.stringify(res))
+        this.toastTitle = 'Registration';
         if (res == 1) {
           this.form.reset();
-          this.sucessAlert = true;
+          this.RegsucessAlert = true;
+
+          setTimeout(() => {
+            this.RegsucessAlert = false;
+            console.log('RegsucessAlert')
+          }, 5000)
+
         } else {
-          this.failureAlert = true
+          this.RegfailureAlert = true
+          setTimeout(() => {
+            this.RegfailureAlert = false;
+            console.log('RegfailureAlert')
+          }, 5000)
         }
 
       })
@@ -363,12 +402,25 @@ export class RegisterComponent implements OnInit {
       this.authService.RegisterInspection(InsReg)
         .subscribe(res => {
           console.log(res)
+          this.toastTitle = 'Inspection Registration'
           if (res == 1) {
             this.Inspform.reset();
             this.clearUserDetails()
-            //this.sucessAlert = true;
+            this.RegsucessAlert = true;
+            window.scrollTo(0, 0)
+            setTimeout(() => {
+              console.log('setTimeout')
+              this.RegsucessAlert = false;
+              console.log('RegsucessAlert')
+            }, 5000)
+
           } else {
-            //this.failureAlert = true
+            this.RegfailureAlert = true
+            window.scrollTo(0, 0)
+            setTimeout(() => {
+              this.RegfailureAlert = false;
+              console.log('RegfailureAlert')
+            }, 5000)
           }
         })
     }

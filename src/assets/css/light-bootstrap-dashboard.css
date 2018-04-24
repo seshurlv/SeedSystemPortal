@@ -919,7 +919,7 @@ input:focus {
   background-color: #ffbc67; }
 
 .alert-danger {
-  background-color: #fc727a; }
+  background-color: #d14836; }
 
 .table .radio,
 .table .checkbox {
@@ -1673,7 +1673,7 @@ input:focus {
   .card .title {
     margin: 0;
     color: #333333;
-    font-weight: 300; }
+     font-weight: bold !important; }
   .card .avatar {
     width: 30px;
     height: 30px;

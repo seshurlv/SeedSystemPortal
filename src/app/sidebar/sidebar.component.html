@@ -1,6 +1,6 @@
 <div class="sidebar-wrapper">
     <div class="logo">
-        <a class="simple-text">
+        <a class="simple-text"  [routerLink]="['dashboard']">
             <div class="logo-img">
                 <img src="/assets/img/logo.png" />
             </div>
@@ -136,6 +136,13 @@
                 <p>{{teamleadItem.title}}</p>
             </a>
         </li>
+
+        <li routerLinkActive="active" *ngFor="let psi of psiItems" class="{{psi.class}}">
+                <a [routerLink]="[psi.path]" *ngIf="Role == 3">
+                    <i class="{{psi.icon}}"></i>
+                    <p>{{psi.title}}</p>
+                </a>
+            </li>
 
     </ul>
  

@@ -30,6 +30,10 @@ export const TeamLeadRoutes: RouteInfo[] = [
     { path: 'observations', title: 'observations', icon: 'fas fa-clipboard-list', class: '' }
 ]
 
+export const PSIRoutes: RouteInfo[] = [
+    { path: 'assignments', title: 'My Assignments', icon: 'fas fa-briefcase', class: '' },
+]
+
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html'
@@ -38,6 +42,7 @@ export class SidebarComponent implements OnInit {
     menuItems: any[];
     listItems: any[];
     teamleadItems:any[];
+    psiItems:any[];
     Role
     constructor() { }
 
@@ -47,6 +52,7 @@ export class SidebarComponent implements OnInit {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.listItems = TestRoutes.filter(listItem => listItem);
         this.teamleadItems = TeamLeadRoutes.filter(AuthRoute => AuthRoute);
+        this.psiItems = PSIRoutes.filter(authRoute => authRoute);
     }
     isMobileMenu() {
         if ($(window).width() > 991) {

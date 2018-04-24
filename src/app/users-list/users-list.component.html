@@ -17,7 +17,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let row of dataRows">
+                                <tr *ngFor="let row of dataRows | paginate: { itemsPerPage: 10, currentPage: p } ">
                                     <td>{{row.UserID}}</td>
                                     <td>{{row.FirstName}}</td>
                                     <td>{{row.LastName}}</td>
@@ -26,8 +26,9 @@
                                     <td>{{row.Email}}</td>
                                 </tr>
                             </tbody>
+                            
                         </table>
-
+                              <pagination-controls (pageChange)="p = $event" style="text-align: center;font-size: 18px;"></pagination-controls>
                     </div>
                 </div>
             </div>

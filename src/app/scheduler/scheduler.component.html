@@ -44,7 +44,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let Scheduler of SchedulerArr | reverse:arrow:sortgrower">
+                <tr *ngFor="let Scheduler of SchedulerArr | reverse:arrow:sortgrower  | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>{{Scheduler.GrowerName}}</td>
                   <td>{{Scheduler.InspectorName}}</td>
                   <td>{{Scheduler?.ProductClass.ClassName}}</td>
@@ -55,7 +55,7 @@
                 </tr>
               </tbody>
             </table>
-
+            <pagination-controls (pageChange)="p = $event" style="text-align: center;font-size: 18px;"></pagination-controls>
           </div>
         </div>
       </div>

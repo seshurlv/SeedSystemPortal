@@ -21,6 +21,7 @@ import { UsersListComponent } from './users-list/users-list.component'
 import {InspectionRegistrationComponent} from './inspection-registration/inspection-registration.component'
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { ObservationsComponent } from './observations/observations.component';
+import { InspectorAssignmentsComponent } from './inspector-assignments/inspector-assignments.component';
 
 const routes: Routes = [
 
@@ -40,6 +41,7 @@ const routes: Routes = [
   {path: 'Scheduler' , component:SchedulerComponent},
   {path: 'observations' , component:ObservationsComponent},
   { path: 'app', component: AppComponent },
+  { path: 'assignments', component: InspectorAssignmentsComponent },
   { path: '**', redirectTo: '' },
   
   { path: '*', redirectTo: '' }

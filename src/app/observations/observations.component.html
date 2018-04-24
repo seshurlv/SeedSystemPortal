@@ -32,7 +32,7 @@
               </thead>
               <!-- data-toggle="modal" data-target="#exampleModal" -->
               <tbody>
-                <tr *ngFor="let obv of obvArr | reverse:arrow">
+                <tr *ngFor="let obv of obvArr | reverse:arrow | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>{{obv.ID}}</td>
                   <td>{{obv.InspectionRegistration.GrowerName}}</td>
                   <td>{{obv.InspectionRegistration.InspectorName}}</td>
@@ -47,7 +47,7 @@
                 </tr>
               </tbody>
             </table>
-
+            <pagination-controls (pageChange)="p = $event" style="text-align: center;font-size: 18px;"></pagination-controls>
           </div>
         </div>
       </div>
@@ -228,8 +228,11 @@
             </div>
           </div>
           <div class="col-md-5">
-            {{Obv?.DateOfSowing ? Obv?.DateOfSowing : "NA" }}
+            {{Obv?.DateOfSowing  | date:'dd/MM/yyyy'}}
           </div>
+          <!-- <div class="col-md-5">
+            {{Obv?.DateOfSowing  ? Obv?.DateOfSowing | date:'dd/MM/yyyy' : "NA"  }}
+          </div> -->
         </div>
 
         <div class="row obv-modal">

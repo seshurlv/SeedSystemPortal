@@ -23,11 +23,12 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
-
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 import './rxjs-operators';
 
+import {NgxPaginationModule} from 'ngx-pagination'; 
 
 import { ReactiveFormsModule } from '@angular/forms';
 import {AuthService} from '../services/auth-service.service';
@@ -38,6 +39,7 @@ import { ObservationsComponent } from './observations/observations.component';
 import { ReversePipe } from '../pipes/reverse.pipe';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { InspectorAssignmentsComponent } from './inspector-assignments/inspector-assignments.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     InspectionRegistrationComponent,
     SchedulerComponent,
     ObservationsComponent,
-    ReversePipe
+    ReversePipe,
+    InspectorAssignmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AppRoutingModule,
     LbdModule,
     ReactiveFormsModule,
-  
+    Ng2GoogleChartsModule,
+    NgxPaginationModule
     
   ],
   providers: [AuthService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
