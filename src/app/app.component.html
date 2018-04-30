@@ -114,7 +114,7 @@
                                                 <input placeholder="Email" class="form-control" [(ngModel)]="user.Email" formControlName="email" type="email">
                                                 <div *ngIf="signup.controls['email'].touched">
                                                     <p class="alert alert-danger" *ngIf="signup.controls['email'].hasError('pattern')">
-                                                        please enter a valid email
+                                                        Please enter a valid email
                                                     </p>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
                                                 </p>
                                                 <div *ngIf="!signup.controls['mobile'].hasError('maxlength')">
                                                     <p class="alert alert-danger" *ngIf="signup.controls['mobile'].hasError('pattern')">
-                                                        Your mobile number is invalid.
+                                                        Please enter a valid mobile number.
                                                     </p>
                                                 </div>
                                             </div>
@@ -245,7 +245,7 @@
 
                                                 <div *ngIf="!signup.controls['pobox'].hasError('maxlength')">
                                                     <p class="alert alert-danger" *ngIf="signup.controls['pobox'].hasError('pattern')">
-                                                        Your Postal Code is invalid.
+                                                        Please enter a valid Postal Code.
                                                     </p>
                                                 </div>
                                             </div>

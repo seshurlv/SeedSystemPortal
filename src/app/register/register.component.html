@@ -26,7 +26,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="alert alert-danger alert-dismissible" style="text-align: center;">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Failed!</strong> Saving {{toastTitle}} . please try again
+                    <strong>Failed!</strong> Saving {{toastTitle}} . Please try again
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@
                                             <input class="form-control" required formControlName="email" placeholder="Email" [(ngModel)]="user.Email">
                                             <div *ngIf="form.controls['email'].touched">
                                                 <p class="alert alert-danger" *ngIf="form.controls['email'].hasError('pattern')">
-                                                    please enter a valid email
+                                                    Please enter a valid email.
                                                 </p>
                                             </div>
 
@@ -113,7 +113,7 @@
                                             </p>
                                             <div *ngIf="!form.controls['mobile'].hasError('maxlength')">
                                                 <p class="alert alert-danger" *ngIf="form.controls['mobile'].hasError('pattern')">
-                                                        Your mobile number is invalid.
+                                                    Please enter a valid mobile number.
                                                 </p>
                                             </div>
 
@@ -267,7 +267,7 @@
                                            
                                             <div *ngIf="!form.controls['pobox'].hasError('maxlength')">
                                                 <p class="alert alert-danger" *ngIf="form.controls['pobox'].hasError('pattern')">
-                                                        Your Postal Code is invalid.
+                                                    Please enter a valid Postal Code.
                                                 </p>
                                             </div>
                                         </div>
@@ -322,7 +322,7 @@
                                             </label>
                                             <input class="form-control" formControlName="area" type="text" placeholder="Area in hectares">
                                             <p class="alert alert-danger" *ngIf="Inspform.controls['area'].hasError('pattern')">
-                                                    This value should be a valid number.
+                                                   Area should not exceed two decimals.
                                             </p>
                                         </div>
                                     </div>
@@ -373,7 +373,7 @@
                                         <div class="form-group">
                                             <label class="control-label" for="">Expected Date of planting*
                                             </label>
-                                            <input class="form-control" formControlName="plantingdate" type="date" placeholder="Expected Date of planting">
+                                            <input class="form-control date-bg" formControlName="plantingdate" type="date" placeholder="Expected Date of planting">
                                         </div>
                                     </div>
                                     <div class="col-md-4">

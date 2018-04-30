@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
             this.TlpieChartData = {
               chartType: 'PieChart',
               dataTable: this.FilterdStats,
-              options: { 'title': 'Area Cultivated Per Each Crop (Hectors)', 'width': 500, 'height': 400 }
+              options: { 'title': 'Area Cultivated Per Each Crop (Hectars)', 'width': 500, 'height': 400 }
             };
           }
         })
@@ -155,7 +155,7 @@ export class HomeComponent implements OnInit {
             this.AdminpieChartData = {
               chartType: 'PieChart',
               dataTable: CropGrown,
-              options: { 'title': 'Inspection Registrations Per Crop - 2018','width': 500, 'height': 400},
+              options: { 'title': 'Inspection Registrations Per Crop - 2018','width': 400, 'height': 400},
             };
           }
         })
@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit {
         .subscribe(res => {
           console.log(JSON.stringify(res))
           var userDist = [];
-          userDist[0] = ['DistrictName', 'User Registration Count'];
+          userDist[0] = ['DistrictName', 'Users Count'];
 
           for (var i = 0; i < res.length; i++) {
             userDist[i + 1] = [res[i].DistrictName, res[i].UserRegistrationCount];
@@ -176,7 +176,7 @@ export class HomeComponent implements OnInit {
             this.AdminBarChartDataForDistrict = {
               chartType: 'ColumnChart',
               dataTable: userDist,
-              options: { 'title': 'Registered Users Per District','width': 500, 'height': 400},
+              options: { 'title': 'Registered Users Per District','width': 600, 'height': 400},
             };
           }
         })

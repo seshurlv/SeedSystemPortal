@@ -48,11 +48,11 @@
                     <td>{{grower.ProductCategory.ProductCategoryName}}</td>
                     <td>{{grower.Product.ProductName}}</td>
                     <td>{{grower.Status}}</td>
-                    <td>{{grower.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                    <td>{{grower.UpdatedAt | date:'dd/MM/yyyy'}}</td>
                   </tr>
                 </tbody>
               </table>
-              <pagination-controls (pageChange)="p = $event" style="text-align: center;font-size: 18px;"></pagination-controls>
+              <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
             </div>
           </div>
         </div>

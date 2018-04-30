@@ -51,11 +51,11 @@
                   <td>{{Scheduler.ProductCategory.ProductCategoryName}}</td>
                   <td>{{Scheduler.Product.ProductName}}</td>
                   <td>{{Scheduler.Status}}</td>
-                  <td>{{Scheduler.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                  <td>{{Scheduler.UpdatedAt | date:'dd/MM/yyyy'}}</td>
                 </tr>
               </tbody>
             </table>
-            <pagination-controls (pageChange)="p = $event" style="text-align: center;font-size: 18px;"></pagination-controls>
+            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
           </div>
         </div>
       </div>
