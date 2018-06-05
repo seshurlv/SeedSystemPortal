@@ -3,13 +3,13 @@
         <!-- <div id="loader" *ngIf="FilterdStats?.length == 0">
             <img src="assets/img/loader-preview.svg" alt="loading">
         </div> -->
-     
+
         <div *ngIf="Role == 2">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <google-chart [data]="TlpieChartData"></google-chart>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <google-chart [data]="TlDonutChartData"></google-chart>
                 </div>
 
@@ -17,7 +17,7 @@
             <br>
             <br>
             <div class="row">
-                <div class="col-md-8">                            
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <google-chart [data]="TlBarChartData"></google-chart>
                 </div>
             </div>
@@ -26,26 +26,22 @@
 
         <div *ngIf="Role == 1">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-7 col-sm-6 col-xs-12">
                     <google-chart class="googleChart" [data]="AdminBarChartDataForDistrict"></google-chart>
                 </div>
-
-                <div class="col-md-5">
+               
+                <div class="col-md-5 col-sm-6 col-xs-12">
                     <google-chart class="googleChart" [data]="AdminpieChartData"></google-chart>
                 </div>
             </div>
             <br>
             <br>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <google-chart class="googleChart" [data]="AdminBarChartData"></google-chart>
                 </div>
             </div>
             <br>
-
-
-
-
         </div>
 
         <div *ngIf="Role == 3">
@@ -58,8 +54,24 @@
             <br>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-md-offset-3">
                     <google-chart [data]="PsiPieChartDataForDistrict"></google-chart>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="Role == 4">
+            <!-- <div class="row">
+                    <div class="col-md-12">
+                        <google-chart [data]="PsiBarChartDataForDistrict"></google-chart>
+                    </div>
+                </div> -->
+            <div class="row">
+                <div class="col-md-6">
+                    <google-chart [data]="growerPieChartDataForDistrict"></google-chart>
+                </div>
+                <div class="col-md-6">
+                    <google-chart [data]="growerpieChartData"></google-chart>
                 </div>
             </div>
         </div>
@@ -67,7 +79,6 @@
 
 
 
-        <br>
         <br>
         <br>
         <div class="row">

@@ -18,19 +18,20 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "assets/sass/light-bootstrap-dashboard.scss"
+        "assets/sass/light-bootstrap-dashboard.scss",
+        "../node_modules/ngx-select-dropdown/dist/assets/style.css"
       ],
       "scripts": [
-          "../node_modules/jquery/dist/jquery.js",
-          "../node_modules/bootstrap/dist/js/bootstrap.js",
-          "../node_modules/bootstrap-notify/bootstrap-notify.js",
-          "../node_modules/chartist/dist/chartist.js"
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.js",
+        "../node_modules/bootstrap-notify/bootstrap-notify.js",
+        "../node_modules/chartist/dist/chartist.js"
       ],
-        "environmentSource": "environments/environment.ts",
-        "environments": {
-            "dev": "environments/environment.ts",
-            "prod": "environments/environment.prod.ts"
-        }
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
     }
   ],
   "e2e": {
@@ -54,7 +55,7 @@
     }
   },
   "defaults": {
-      "styleExt": "scss",
-      "component": {}
+    "styleExt": "scss",
+    "component": {}
   }
 }

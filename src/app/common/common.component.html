@@ -1,0 +1,322 @@
+<form [formGroup]="signup" (ngSubmit)="onRegister()">
+    <div class="card">
+        <div class="header text-center">Sign up</div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">First Name:
+                        </label>
+                        <input id="signup_firstname_txtb" placeholder="First Name" class="form-control" type="text" [(ngModel)]="user.FirstName"
+                            formControlName="firstname">
+                        <p class="alert alert-danger" *ngIf="signup.controls['firstname'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">Middle Name:
+                        </label>
+                        <input id="signup_middlename_txtb" placeholder="Middle Name" class="form-control" type="text" [(ngModel)]="user.MiddleName"
+                            formControlName="middlename">
+                        <p class="alert alert-danger" *ngIf="signup.controls['middlename'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">Last Name:
+                        </label>
+                        <input id="signup_lastname_txtb" placeholder="Last Name" class="form-control" [(ngModel)]="user.LastName" formControlName="lastname"
+                            type="text">
+                        <p class="alert alert-danger" *ngIf="signup.controls['lastname'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Email:
+                        </label>
+                        <input id="signup_email_txtb" placeholder="Email" class="form-control" [(ngModel)]="user.Email" formControlName="email" type="email">
+                        <div *ngIf="signup.controls['email'].touched">
+                            <p class="alert alert-danger" *ngIf="signup.controls['email'].hasError('pattern')">
+                                Please enter a valid email
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Mobile:
+                        </label>
+                        <input id="signup_mobile_txtb" placeholder="Mobile" class="form-control" [(ngModel)]="user.Mobile" formControlName="mobile"
+                            type="tel">
+                        <p class="alert alert-danger" *ngIf="signup.controls['mobile'].hasError('maxlength')">
+                            Your mobile number cannot exceed 9 characters.
+                        </p>
+                        <div *ngIf="!signup.controls['mobile'].hasError('maxlength')">
+                            <p class="alert alert-danger" *ngIf="signup.controls['mobile'].hasError('pattern')">
+                                Please enter a valid mobile number.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">User Name:
+                        </label>
+                        <input id="signup_username_txtb" placeholder="User Name" class="form-control" [(ngModel)]="user.UserName" formControlName="username"
+                            type="text">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Password
+                        </label>
+                        <input id="signup_pwd_txtb" placeholder="Password" class="form-control" [(ngModel)]="user.Password" formControlName="password"
+                            type="password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        <select id="signup_country_sel" class="form-control custom-select" formControlName="countries" [(ngModel)]="user.country"
+                            (change)="selectCountry(user.country)">
+                            <option disabled [ngValue]="user.country ? null : user.country">Select Country</option>
+                            <option *ngFor="let countries of countriesArr" [ngValue]="countries">
+                                {{countries.CountryName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">State</label>
+                        <select id="signup_state_sel" class="form-control custom-select" formControlName="states" [(ngModel)]="user.state" (change)="selectState(user.state)">
+                            <option disabled [ngValue]="user.state ? null : user.state">Select State</option>
+                            <option selected *ngFor="let states of statesArr" [ngValue]="states">
+                                {{states.StateName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Region</label>
+                        <select id="signup_region_sel" class="form-control custom-select" formControlName="regions" [(ngModel)]="user.region" (change)="selectRegion(user.region)">
+                            <option disabled [ngValue]="user.region ? null : user.region">Select Region</option>
+                            <option *ngFor="let regions of regionsArr" [ngValue]="regions">
+                                {{regions.RegionName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">District</label>
+                        <select id="signup_district_sel" class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId"
+                            (change)="selectDistrict(user.districtId)">
+                            <option disabled [ngValue]="user.districtId ? null : user.districtId">Select District</option>
+                            <option *ngFor="let district of districtsArr" [ngValue]="district">
+                                {{district.DistrictName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">EPA</label>
+                        <select id="signup_epa_sel" class="form-control custom-select" formControlName="epas" [(ngModel)]="user.epaId" (change)="selectEpa(user.epaId)"
+                            [disabled]="epaArray?.length == 0">
+                            <option disabled [ngValue]="user.epaId ? null : user.epaId">Select EPA</option>
+                            <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
+                                {{epa.EPAName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Section</label>
+                        <select signup_section_sel class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
+                            [disabled]="sectionArray?.length == 0">
+                            <option disabled [ngValue]="user.sectionId ? null : user.sectionId">Select Section</option>
+                            <option *ngFor="let section of sectionArray" [ngValue]="section">
+                                {{section.SectionName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">PO Box:
+                        </label>
+                        <input id="signup_pobox_txtb" placeholder="Post Box" class="form-control" [(ngModel)]="user.Pobox" formControlName="pobox"
+                            type="text">
+                        <p class="alert alert-danger" *ngIf="signup.controls['pobox'].hasError('maxlength')">
+                            Your Postal Code cannot exceed 6 characters.
+                        </p>
+
+                        <div *ngIf="!signup.controls['pobox'].hasError('maxlength')">
+                            <p class="alert alert-danger" *ngIf="signup.controls['pobox'].hasError('pattern')">
+                                Please enter a valid Postal Code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Village:
+                        </label>
+                        <input id="signup_village_txtb" placeholder="Village" class="form-control" [(ngModel)]="user.Village" formControlName="village"
+                            type="text">
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <table *ngIf="farmAddressArr.length > 0">
+                    <tr>
+                        <th class="table-borders">Farm Title</th>
+                        <th class="table-borders">Farm Address</th>
+                        <th class="table-borders">Farm Contact</th>
+                        <th class="table-borders"></th>
+                    </tr>
+                    <tr *ngFor="let farmArr of farmAddressArr">
+                        <td class="table-borders">{{farmArr.FarmTitle}}</td>
+                        <td class="table-borders">{{farmArr.FarmAddress}}</td>
+                        <td class="table-borders">{{farmArr.FarmContact}}</td>
+                        <td class="table-borders">
+                            <i class="fas fa-times-circle" (click)="removeMarker(farmArr.Latlng)"></i>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <form [formGroup]="Farm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="">Farm Title
+                                </label>
+                                <input class="form-control" formControlName="FarmTitle" type="text" placeholder="Farm Title">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="">Farm Address
+                                </label>
+                                <input class="form-control" formControlName="FarmAddress" type="text" placeholder="Farm Address">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="">Farm Contact Number
+                                </label>
+                                <input class="form-control" formControlName="FarmContact" type="text" placeholder="Farm Contact Number">
+
+                                <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('maxlength')">
+                                    Your farm mobile number cannot exceed 10 characters.
+                                </p>
+                                <div *ngIf="!Farm.controls['FarmContact'].hasError('maxlength')">
+                                    <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('pattern')">
+                                        Please enter a valid mobile number.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </form>
+                <fieldset class="ng-maps-margin">
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <label class="control-label" for="">Locate Farm Location
+                            </label>
+                        </div>
+                        <div class="col-md-8" *ngIf="cropValidationAlert">
+                            <span class="label label-warning"> Please enter farm details before marking location </span>
+                        </div>
+                    </div>
+                    <ngui-map center="{{lat}},{{long}}" (click)="onClick($event)">
+                        <marker *ngFor="let pos of positions" [position]="pos" draggable="false" (click)="clicked($event)"></marker>
+
+                        <info-window id="iw">
+                            <div *ngIf="marker.display">
+                                lat: {{ marker.lat }}, lng: {{ marker.lng }}
+                                <img style="width: 75px;" src="assets/img/img_avatar.png">
+                            </div>
+                            <button (click)="hideMarkerInfo()">Hide Info</button>
+                            <button (click)="removeMarker(marker)" type="button">Remove</button>
+                        </info-window>
+                    </ngui-map>
+                </fieldset>
+
+                <div class="row">
+                    <div class="col-md-6 col-xs-4 ">
+                        <button [disabled]="!Farm.valid || (farmAddressArr.length == positions.length)" class="btn btn-success" type="button" (click)="saveLocation()">Save Location</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-4 col-xs-offset-3 col-sm-offset-4">
+                <button id="signup_btn" class="btn btn-fill btn-success btn-wd" type="submit" [disabled]="!signup.valid">Sign up</button>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-3 col-md-offset-2 col-xs-offset-2 col-sm-offset-2" (click)="isShowSignup()">
+                <h5 id="signin_link" class="forget-pwd">Sign in</h5>
+            </div>
+        </div>
+
+    </div>
+    <div class="row" *ngIf="RegsucessAlert">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-success alert-dismissible" style="text-align: center;">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Sucess!</strong> user sucessfully created. lonin now
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="RegfailureAlert">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-danger alert-dismissible" style="text-align: center;">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Saving Registration . Please try again
+            </div>
+        </div>
+    </div>
+</form>

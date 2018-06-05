@@ -13,12 +13,12 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit() {
     this.tableData1 = {
-      headerRow: [ 'User ID', 'FirstName','LastName', 'Role', 'mobile', 'Email'],
+      headerRow: [ 'User ID', 'First Name','Last Name', 'Role', 'mobile', 'Email'],
   };
 
     this.authService.GetUsersList()
     .subscribe(res => {
-      console.log(JSON.stringify(res))
+      //console.log(JSON.stringify(res))
       this.dataRows = res
     })
   }

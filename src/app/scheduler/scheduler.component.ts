@@ -24,6 +24,7 @@ export class SchedulerComponent implements OnInit {
   SchedulerArr = []
 
   unAssignedListArr = []
+  display = 'none';
 
   constructor(private authService: AuthService,
     private fb: FormBuilder, ) {
@@ -38,29 +39,29 @@ export class SchedulerComponent implements OnInit {
   tableData1
   tableData2
   ngOnInit() {
-    
+
 
     this.tableData2 = {
       headerRow: ['choose', 'Reg Id', 'Crop Name', 'Seed Class', 'Varient Name', 'Status'],
     };
 
     this.Role = JSON.parse(window.localStorage.getItem('authToken'));
-    console.log(this.Role)
+    //console.log(this.Role)
 
     this.UserId = JSON.parse(window.localStorage.getItem('UserId'));
-    console.log(this.UserId)
+    //console.log(this.UserId)
 
     var mode = 0;
 
     this.authService.GetRegistrationsByUser(mode, this.UserId)
       .subscribe(res => {
-        console.log(JSON.stringify(res))
+        //console.log(JSON.stringify(res))
         this.SchedulerArr = res
 
         if (this.SchedulerArr) {
           this.authService.GetGrowersWithOpenRegistrations()
             .subscribe(res => {
-              console.log(JSON.stringify(res))
+              //console.log(JSON.stringify(res))
               this.GrowersArr = res
 
               if (this.GrowersArr) {
@@ -78,21 +79,21 @@ export class SchedulerComponent implements OnInit {
 
   radioSelected
   selectGrower() {
-    console.log(this.user)
+    //console.log(this.user)
     let mode = 2 //for grower
     let userId = this.user.UserID
 
     this.authService.GetRegistrationsByUser(mode, userId)
       .subscribe(res => {
-        console.log(JSON.stringify(res.length))
-        console.log(this.radioSelected)
+        //console.log(JSON.stringify(res.length))
+        //console.log(this.radioSelected)
         this.radioSelected = null
         if (res.length == 0) {
           this.unAssignedListArr = []
-          console.log('if')
+          //console.log('if')
           this.radioSelected = null
           // this.form.value.unAssignedLists.reset();
-          console.log(this.radioSelected)
+          //console.log(this.radioSelected)
           // console.log(this.form.value.unAssignedLists)
           // console.log(JSON.stringify(this.form.value))
         } else {
@@ -104,12 +105,11 @@ export class SchedulerComponent implements OnInit {
   }
 
   selectPsi() {
-    console.log(this.psi)
+    //console.log(this.psi)
   }
 
 
   onAssign() {
-
     //console.log('onAssign', JSON.stringify(this.form.value))
     let formObj = this.form.value
     let assignObj = {
@@ -119,17 +119,17 @@ export class SchedulerComponent implements OnInit {
     }
 
 
-    console.log(JSON.stringify(assignObj))
+    //console.log(JSON.stringify(assignObj))
     this.authService.AssignInspector(assignObj)
       .subscribe(res => {
-        console.log(res)
+        //console.log(res)
         this.form.reset()
         this.unAssignedListArr.length = 0
 
         var mode = 0;
         this.authService.GetRegistrationsByUser(mode, this.UserId)
           .subscribe(res => {
-            console.log(JSON.stringify(res))
+            //console.log(JSON.stringify(res))
             this.SchedulerArr = res
           })
       })
@@ -147,14 +147,14 @@ export class SchedulerComponent implements OnInit {
       ProductCategoryName: this.crop.ProductCategoryName,
       ProductName: this.varient.ProductName
     })
-    console.log(JSON.stringify(this.SchedulerArr))
+    //console.log(JSON.stringify(this.SchedulerArr))
     this.form.reset()
     this.unAssignedListArr.length = 0
   }
 
   checkbox
   doalert(ev) {
-    console.log(ev)
+    //console.log(ev)
     //console.log(this.checkbox)
   }
 
@@ -165,7 +165,7 @@ export class SchedulerComponent implements OnInit {
 
   arrow = true
   toogleArrow(arrow) {
-    console.log(arrow)
+    //console.log(arrow)
     this.arrow = !arrow
   }
 
@@ -173,11 +173,20 @@ export class SchedulerComponent implements OnInit {
   sortGrower(sortgrower) {
 
     this.sortgrower = !sortgrower
-
-
-    console.log(this.sortgrower)
-
-
-
+    //console.log(this.sortgrower)
   }
+
+  Obv
+  getObv(userid) {
+    //console.log(JSON.stringify(userid.ID))
+
+    if (userid.Status == 'Inspected') {
+      this.authService.GetObservationsByRegId(userid.ID)
+        .subscribe(res => {
+          //console.log(JSON.stringify(res))
+          this.Obv = res
+        })
+    }
+  }
+
 }

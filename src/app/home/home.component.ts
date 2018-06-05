@@ -39,6 +39,10 @@ export class HomeComponent implements OnInit {
 
   PsiBarChartDataForDistrict
   PsiPieChartDataForDistrict
+
+  growerPieChartDataForDistrict
+  growerpieChartData
+
   Role
   FilterdStats = []
   constructor(private authService: AuthService) { }
@@ -46,25 +50,27 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.Role = JSON.parse(window.localStorage.getItem('Role'));
-    console.log(this.Role)
-
+   
+    //console.log(this.Role)
+    
     if (this.Role == 2) {
-      this.authService.GetAreaPerCrop()
+      let userId = 0
+      this.authService.GetAreaPerCrop(userId,this.Role)
         .subscribe(res => {
           var CropArea = [];
           CropArea[0] = ['CropName', 'CropArea'];
           for (var i = 0; i < res.length; i++) {
-            console.log(CropArea)
+            //console.log(CropArea)
             CropArea[i + 1] = [res[i].CropName, res[i].CropArea];
           }
 
           if (CropArea) {
             this.FilterdStats = CropArea.filter(Boolean);
-            console.log(JSON.stringify(CropArea))
+            //console.log(JSON.stringify(CropArea))
             this.TlpieChartData = {
               chartType: 'PieChart',
               dataTable: this.FilterdStats,
-              options: { 'title': 'Area Cultivated Per Each Crop (Hectars)', 'width': 500, 'height': 400 }
+              options: { 'title': 'Area Cultivated Per Each Crop (Hectares)',  'height': 400 }
             };
           }
         })
@@ -73,7 +79,7 @@ export class HomeComponent implements OnInit {
 
       this.authService.GetRegistrationPerCrop()
         .subscribe(res => {
-          console.log(JSON.stringify(res))
+          //console.log(JSON.stringify(res))
           var CropGrown = [];
           CropGrown[0] = ['CropName', 'RegistrationCount'];
 
@@ -82,18 +88,18 @@ export class HomeComponent implements OnInit {
           }
 
           if (CropGrown) {
-            console.log(JSON.stringify(CropGrown))
+            //console.log(JSON.stringify(CropGrown))
             this.TlDonutChartData = {
               chartType: 'PieChart',
               dataTable: CropGrown,
-              options: { 'title': 'Registrations Per Crop - 2018', 'width': 500, 'height': 400, pieHole: 0.4 },
+              options: { 'title': 'Registrations Per Crop - 2018', 'height': 400, pieHole: 0.4 },
             };
           }
         })
 
         this.authService.GetRegistrationStats()
         .subscribe(res => {
-          console.log(JSON.stringify(res))
+          //console.log(JSON.stringify(res))
           var Combined = [];
           Combined[0] = ['Month', 'Registration Count', 'Inspected Count'];
 
@@ -108,11 +114,11 @@ export class HomeComponent implements OnInit {
 
           if (Combined) {
             this.FilterdStats = Combined.filter(Boolean);
-            console.log(JSON.stringify(Combined))
+            //console.log(JSON.stringify(Combined))
             this.TlBarChartData = {
               chartType: 'ColumnChart',
               dataTable: this.FilterdStats,
-              options: { 'title': 'Registrations VS Inspections - 2018', 'width': 1000, 'height': 400 }
+              options: { 'title': 'Registrations VS Inspections - 2018', 'height': 400 }
             }
 
           }
@@ -123,7 +129,7 @@ export class HomeComponent implements OnInit {
     if(this.Role == 1){
       this.authService.GetUserRegistrationsPerMonth()
       .subscribe(res => {
-        console.log(JSON.stringify(res))
+        //console.log(JSON.stringify(res))
         var RegPerMonth = [];
         RegPerMonth[0] = ['Month', 'User Registration Count'];
         for (var i = 0; i < res.length; i++) {
@@ -131,11 +137,11 @@ export class HomeComponent implements OnInit {
         }
 
         if(RegPerMonth){
-          console.log(JSON.stringify(RegPerMonth))
+          //console.log(JSON.stringify(RegPerMonth))
           this.AdminBarChartData = {
             chartType: 'ColumnChart',
             dataTable: RegPerMonth,
-            options: { 'title': 'New User Registrations Per Month - 2018','width': 1000, 'height': 400},
+            options: { 'title': 'New User Registrations Per Month - 2018', 'height': 400},
           };
         }
       })
@@ -143,7 +149,7 @@ export class HomeComponent implements OnInit {
 
       this.authService.GetRegistrationPerCrop()
         .subscribe(res => {
-          console.log(JSON.stringify(res))
+          //console.log(JSON.stringify(res))
           var CropGrown = [];
           CropGrown[0] = ['CropName', 'RegistrationCount'];
           for (var i = 0; i < res.length; i++) {
@@ -151,11 +157,11 @@ export class HomeComponent implements OnInit {
           }
 
           if (CropGrown) {
-            console.log(JSON.stringify(CropGrown))
+            //console.log(JSON.stringify(CropGrown))
             this.AdminpieChartData = {
               chartType: 'PieChart',
               dataTable: CropGrown,
-              options: { 'title': 'Inspection Registrations Per Crop - 2018','width': 400, 'height': 400},
+              options: { 'title': 'Inspection Registrations Per Crop - 2018', 'height': 400},
             };
           }
         })
@@ -163,7 +169,7 @@ export class HomeComponent implements OnInit {
 
         this.authService.GetUserPerDistrict()
         .subscribe(res => {
-          console.log(JSON.stringify(res))
+          //console.log(JSON.stringify(res))
           var userDist = [];
           userDist[0] = ['DistrictName', 'Users Count'];
 
@@ -172,11 +178,11 @@ export class HomeComponent implements OnInit {
           }
 
           if (userDist) {
-            console.log(JSON.stringify(userDist))
+            //console.log(JSON.stringify(userDist))
             this.AdminBarChartDataForDistrict = {
               chartType: 'ColumnChart',
               dataTable: userDist,
-              options: { 'title': 'Registered Users Per District','width': 600, 'height': 400},
+              options: { 'title': 'Registered Users Per District','height': 400},
             };
           }
         })
@@ -195,18 +201,19 @@ export class HomeComponent implements OnInit {
         }
 
         if (GrowersPerMonth) {
-          console.log(JSON.stringify(GrowersPerMonth))
+          //console.log(JSON.stringify(GrowersPerMonth))
           this.PsiBarChartDataForDistrict = {
             chartType: 'ColumnChart',
             dataTable: GrowersPerMonth,
-            options: { 'title': 'Inspected Growers Per Month - 2018', 'width': 1000, 'height': 400 },
+            options: { 'title': 'Inspected Growers Per Month - 2018',  'height': 400 },
           };
         }
 
       })
 
-
-      this.authService.GetInspectorStats()
+      var UserID = JSON.parse(window.localStorage.getItem('UserId'))
+      //console.log(UserID)
+      this.authService.GetInspectorStats(UserID,this.Role)
       .subscribe(res => {
         var InspectorStats = [];
         InspectorStats[0] = ['Status', 'Count'];
@@ -216,15 +223,59 @@ export class HomeComponent implements OnInit {
         }
 
         if (InspectorStats) {
-          console.log(JSON.stringify(InspectorStats))
+          //console.log(JSON.stringify(InspectorStats))
           this.PsiPieChartDataForDistrict = {
             chartType: 'PieChart',
             dataTable: InspectorStats,
-            options: { 'title': 'Assigned Vs Inspected for the year 2018', 'width': 500, 'height': 400,},
+            options: { 'title': 'Assigned Vs Inspected for the year 2018', 'height': 400,},
           };
         }
 
       })
+    }
+
+    if(this.Role == 4){
+      var UserID = JSON.parse(window.localStorage.getItem('UserId'))
+      //console.log(UserID)
+      this.authService.GetInspectorStats(UserID,this.Role)
+      .subscribe(res => {
+        var growserStats = [];
+        growserStats[0] = ['Status', 'Count'];
+        //console.log(JSON.stringify(res))
+        for (var i = 0; i < res.length; i++) {
+          growserStats[i + 1] = [res[i].Status, res[i].Count];
+        }
+
+        if (growserStats) {
+          //console.log(JSON.stringify(growserStats))
+          this.growerPieChartDataForDistrict = {
+            chartType: 'PieChart',
+            dataTable: growserStats,
+            options: { 'title': 'Assigned Vs Inspected for the year 2018',  'height': 400,},
+          };
+        }
+      })
+
+      this.authService.GetAreaPerCrop(UserID,this.Role)
+        .subscribe(res => {
+          var CropArea = [];
+          CropArea[0] = ['CropName', 'CropArea'];
+          for (var i = 0; i < res.length; i++) {
+            //console.log(CropArea)
+            CropArea[i + 1] = [res[i].CropName, res[i].CropArea];
+          }
+
+          if (CropArea) {
+            var filterdStats = CropArea.filter(Boolean);
+            //console.log(JSON.stringify(CropArea))
+            this.growerpieChartData = {
+              chartType: 'PieChart',
+              dataTable: filterdStats,
+              options: { 'title': 'Area Cultivated Per Each Crop (Hectares)',  'height': 400 }
+            };
+          }
+        })
+
     }
 
 

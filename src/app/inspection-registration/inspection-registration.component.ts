@@ -40,7 +40,7 @@ export class InspectionRegistrationComponent implements OnInit {
   }
 
   selectGrower(growerName){
-    console.log(growerName)
+    //console.log(growerName)
   }
 
 }

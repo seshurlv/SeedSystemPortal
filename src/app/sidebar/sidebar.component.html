@@ -1,6 +1,6 @@
 <div class="sidebar-wrapper">
     <div class="logo">
-        <a class="simple-text"  [routerLink]="['dashboard']">
+        <a class="simple-text" [routerLink]="['dashboard']">
             <div class="logo-img">
                 <img src="/assets/img/logo.png" />
             </div>
@@ -11,94 +11,11 @@
 
 
     <ul class="nav responsive-nav">
-        <li *ngIf="isMobileMenu()">
-            <a class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-dashboard"></i>
-                <p class="hidden-lg hidden-md">Dashboard</p>
-            </a>
-        </li>
-        <li class="dropdown" *ngIf="isMobileMenu()">
-            <a class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-globe"></i>
-                <b class="caret hidden-sm hidden-xs"></b>
-                <span class="notification hidden-sm hidden-xs">5</span>
-                <p class="hidden-lg hidden-md">
-                    5 Notifications
-                    <b class="caret"></b>
-                </p>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#">Notification 1</a>
-                </li>
-                <li>
-                    <a href="#">Notification 2</a>
-                </li>
-                <li>
-                    <a href="#">Notification 3</a>
-                </li>
-                <li>
-                    <a href="#">Notification 4</a>
-                </li>
-                <li>
-                    <a href="#">Another notification</a>
-                </li>
-            </ul>
-        </li>
 
-        <li *ngIf="isMobileMenu()">
-            <a>
-                <i class="fa fa-search"></i>
-                <p class="hidden-lg hidden-md">Search</p>
-            </a>
-        </li>
-
-        <li *ngIf="isMobileMenu()">
-            <a href="">
-                <p>Account</p>
-            </a>
-        </li>
-        
-        <li class="dropdown" *ngIf="isMobileMenu()">
-            <a class="dropdown-toggle" data-toggle="dropdown">
-                <p>
-                    Dropdown
-                    <b class="caret"></b>
-                </p>
-
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#">Action</a>
-                </li>
-                <li>
-                    <a href="#">Another action</a>
-                </li>
-                <li>
-                    <a href="#">Something</a>
-                </li>
-                <li>
-                    <a href="#">Another action</a>
-                </li>
-                <li>
-                    <a href="#">Something</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">Separated link</a>
-                </li>
-            </ul>
-        </li>
-        <li *ngIf="isMobileMenu()">
-            <a>
-                <p>Log out</p>
-            </a>
-        </li>
-        <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
 
         <!-- //in web view -->
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}">
-            <a [routerLink]="[menuItem.path]">
+            <a (click)="hideSideMenu()" [routerLink]="[menuItem.path]">
                 <i class="{{menuItem.icon}}"></i>
                 <p>{{menuItem.title}}</p>
             </a>
@@ -114,9 +31,29 @@
             <div class="collapse" id="Components" style="height: 0px;">
                 <ul class="nav indentation">
                     <li routerLinkActive="active" *ngFor="let listItem of listItems" class="{{listItem.class}}">
-                        <a [routerLink]="[listItem.path]">
+                        <a (click)="hideSideMenu()" [routerLink]="[listItem.path]">
                             <i class="{{listItem.icon}}"></i>
                             <p>{{listItem.title}}</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+        <li routerlinkactive="active" *ngIf="Role == 1">
+            <a data-toggle="collapse" data-parent="#accordion" href="#locations" class="collapsed">
+                <i class="fas fa-globe"></i>
+                <p>Location
+                    <b class="caret"></b>
+                </p>
+            </a>
+            <div class="collapse" id="locations" style="height: 0px;">
+                <ul class="nav">
+                    <li routerLinkActive="active" *ngFor="let locationItem of locationItems" class="{{locationItem.class}}">
+                        <a (click)="hideSideMenu()" [routerLink]="[locationItem.path]">
+                            <i class="{{locationItem.icon}}"></i>
+                            <p>{{locationItem.title}}</p>
                         </a>
                     </li>
 
@@ -128,24 +65,46 @@
 
 
 
-
-
         <li routerLinkActive="active" *ngFor="let teamleadItem of teamleadItems" class="{{teamleadItem.class}}">
-            <a [routerLink]="[teamleadItem.path]" *ngIf="Role == 2">
+            <a (click)="hideSideMenu()" [routerLink]="[teamleadItem.path]" *ngIf="Role == 2">
                 <i class="{{teamleadItem.icon}}"></i>
                 <p>{{teamleadItem.title}}</p>
             </a>
         </li>
 
         <li routerLinkActive="active" *ngFor="let psi of psiItems" class="{{psi.class}}">
-                <a [routerLink]="[psi.path]" *ngIf="Role == 3">
-                    <i class="{{psi.icon}}"></i>
-                    <p>{{psi.title}}</p>
-                </a>
-            </li>
+            <a (click)="hideSideMenu()" [routerLink]="[psi.path]" *ngIf="Role == 3">
+                <i class="{{psi.icon}}"></i>
+                <p>{{psi.title}}</p>
+            </a>
+        </li>
 
+        <li routerLinkActive="active" *ngFor="let grower of growerItems" class="{{grower.class}}">
+            <a (click)="hideSideMenu()" [routerLink]="[grower.path]" *ngIf="Role == 4">
+                <i class="{{grower.icon}}"></i>
+                <p>{{grower.title}}</p>
+            </a>
+        </li>
+
+        <li *ngIf="isMobileMenu()">
+            <a (click)="hideSideMenu()" [routerLink]="['/user']">
+                <span>
+                    <i class="fas fa-user"></i>
+                    <p> Profile</p>
+                </span>
+            </a>
+        </li>
+        <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
+        <li *ngIf="isMobileMenu()">
+            <a (click)="logOut()" href="">
+                <span>
+                    <i class="fas fa-power-off"></i>
+                    <p> Sign out</p>
+                </span>
+            </a>
+        </li>
     </ul>
- 
+
 
     <!-- <div class="active-pro">
         <img style="width: 260px;background: #cce59d; position: absolute; bottom: 0px;"  src="/assets/img/download.png" />   

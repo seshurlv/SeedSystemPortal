@@ -311,7 +311,7 @@ input:focus {
       border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
       .sidebar .nav li.separator + li,
       .bootstrap-navbar .nav li.separator + li {
-        margin-top: 31px; }
+        margin-top: 0px !important; }
     .sidebar .nav p,
     .bootstrap-navbar .nav p {
       margin: 0;
@@ -323,7 +323,7 @@ input:focus {
       color: #FFFFFF; }
     .sidebar .nav i,
     .bootstrap-navbar .nav i {
-      font-size: 28px;
+      font-size: 22px !important;
       float: left;
       margin-right: 15px;
       line-height: 30px;

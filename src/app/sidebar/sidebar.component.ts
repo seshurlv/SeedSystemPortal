@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 declare const $: any;
 
@@ -25,6 +26,12 @@ export const TestRoutes: RouteInfo[] = [
     { path: 'inspectionReg', title: 'inspection Registration', icon: 'fas fa-edit', class: '' }
 ]
 
+export const LocationRoutes: RouteInfo[] = [
+    { path: 'country', title: 'Country', icon: '', class: '' },
+    { path: 'state', title: 'State', icon: '', class: '' },
+    { path: 'district', title: 'District', icon: '', class: '' }
+]
+
 export const TeamLeadRoutes: RouteInfo[] = [
     { path: 'Scheduler', title: 'Scheduler', icon: 'far fa-calendar-alt', class: '' },
     { path: 'observations', title: 'observations', icon: 'fas fa-clipboard-list', class: '' }
@@ -33,26 +40,41 @@ export const TeamLeadRoutes: RouteInfo[] = [
 export const PSIRoutes: RouteInfo[] = [
     { path: 'assignments', title: 'My Assignments', icon: 'fas fa-briefcase', class: '' },
 ]
+export const GrowerRoutes: RouteInfo[] = [
+    { path: 'registrations', title: 'My Registrations', icon: 'fas fa-book', class: '' },
+]
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
+
+    constructor(private dataServie:DataService){
+
+    }
     menuItems: any[];
     listItems: any[];
-    teamleadItems:any[];
-    psiItems:any[];
+    locationItems: any[];
+    teamleadItems: any[];
+    psiItems: any[];
+    growerItems: any[];
     Role
-    constructor() { }
+   
+    message;
 
     ngOnInit() {
+        // this.dataServie.currentMsg.subscribe(msg => 
+        //     this.message = msg
+        // )
         this.Role = JSON.parse(window.localStorage.getItem('Role'));
-        console.log('localstorage Role Id',this.Role)
+        //console.log('localstorage Role Id', this.Role)
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.listItems = TestRoutes.filter(listItem => listItem);
+        this.locationItems = LocationRoutes.filter(LocationRoute => LocationRoute);
         this.teamleadItems = TeamLeadRoutes.filter(AuthRoute => AuthRoute);
         this.psiItems = PSIRoutes.filter(authRoute => authRoute);
+        this.growerItems = GrowerRoutes.filter(authRoute => authRoute);
     }
     isMobileMenu() {
         if ($(window).width() > 991) {
@@ -60,4 +82,30 @@ export class SidebarComponent implements OnInit {
         }
         return true;
     };
+
+    logOut() {
+        //console.log('logOut')
+        this.dataServie.changeMessage(true)
+        window.localStorage.clear()
+        //this.router.navigate([app])
+        this.sidebarClose();
+    }
+    private sidebarVisible: boolean;
+    private toggleButton: any;
+
+
+    hideSideMenu(){
+        this.dataServie.changeMessage(true)
+        //console.log('hideSideMenu')
+        this.sidebarClose();
+       
+    }
+
+    sidebarClose() {
+        const body = document.getElementsByTagName('body')[0];
+        //this.toggleButton.classList.remove('toggled');
+        this.sidebarVisible = true;
+        body.classList.remove('nav-open');
+    };
+
 }

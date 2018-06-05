@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators , FormControl} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth-service.service'
 
 @Component({
@@ -9,11 +9,13 @@ import { AuthService } from '../services/auth-service.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
   user
   form
   signin
   signup
+  Farm
   Alert
   errSignUpAlert
   Role
@@ -30,6 +32,9 @@ export class AppComponent implements OnInit {
   mobnumPattern
   poBoxPattern
   emailPattern
+  namePattern
+  showSignup = false
+
   constructor(public location: Location,
     private router: Router,
     private fb: FormBuilder,
@@ -40,112 +45,71 @@ export class AppComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
-    this.poBoxPattern = "^[0-9_-]{3,6}$";
-    this.emailPattern = "^[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-    this.signup = new FormGroup({
-      firstname: new FormControl('', Validators.required),
-      middlename: new FormControl(''),
-      lastname: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.emailPattern)])),
-      mobile: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern(this.mobnumPattern)])),
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      pobox: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern(this.poBoxPattern)])),
-      village: new FormControl('', Validators.required),
-      districts: new FormControl('', Validators.required),
-      epas: new FormControl('', Validators.required),
-      sections: new FormControl('', Validators.required),
-      countries: new FormControl('', Validators.required),
-      states: new FormControl('', Validators.required),
-      regions: new FormControl('', Validators.required),
-    })
-
-   
-
-    this.user = {
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Mobile: '',
-      UserName: '',
-      Password: '',
-      Address: '',
-      Pobox: '',
-      Village: '',
-      FarmContact: '',
-      districtId: '',
-      epaId: '',
-      sectionId: ''
-    }
   }
+
 
   ngOnInit() {
 
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //     this.showPosition(position);
+    //   });
+    // } else {
+    //   alert("Geolocation is not supported by this browser.");
+    // }
+
 
     if (this.router.url == '/') {
-      console.log(this.router.url)
+      //console.log(this.router.url)
     }
     //console.log('href ',window.location.href)
     if (window.location.href == 'http://localhost:4200/#/') {
       localStorage.clear()
-      console.log('href ', window.location.href)
+      //console.log('href ', window.location.href)
     }
 
     if (window.location.href == 'http://localhost:4200/') {
       localStorage.clear()
-      console.log('href ', window.location.href)
+      //console.log('href ', window.location.href)
     }
 
     if (window.location.href == 'http://ssuadmin.aheadrace.com:8082/#/') {
-      console.log('ssuadmin ', window.location.href)
+      //console.log('ssuadmin ', window.location.href)
       localStorage.clear()
     }
 
     if (window.location.href == 'http://ssuadmin.aheadrace.com:8082/') {
-      console.log('ssuadmin ', window.location.href)
+      //console.log('ssuadmin ', window.location.href)
+      localStorage.clear()
+    }
+
+    if (window.location.href == 'http://ssuadmin.stage.aheadrace.com:8084/#/') {
+      //console.log('ssuadmin ', window.location.href)
+      localStorage.clear()
+    }
+
+    if (window.location.href == 'http://ssuadmin.stage.aheadrace.com:8084/') {
+      //console.log('ssuadmin ', window.location.href)
       localStorage.clear()
     }
 
     //this.router.navigate([this.router.url]);
 
-
     this.Role = JSON.parse(window.localStorage.getItem('authToken'));
     if (this.Role) {
       this.ifLogin = true;
-    } else {
-      
-      this.authService.GetDistricts()
-      .subscribe(res => {
-        console.log(JSON.stringify(res))
-        this.districtsArr = res
-        if(res){
-          this.authService.getCountries()
-          .subscribe(res => {
-            this.countriesArr = res
-            console.log(JSON.stringify(res))
-            if (res) {
-              this.authService.getStates()
-                .subscribe(res => {
-                  this.statesArr = res
-                  console.log(JSON.stringify(res))
-                  if (res) {
-                    this.authService.getRegions()
-                      .subscribe(res => {
-                        this.regionsArr = res
-                        console.log(JSON.stringify(res))
-                      })
-                  }
-                })
-            }
-          })
-        }
-      })
-
     }
 
+  }
 
+  onPageChanges(isPageChanges){
+    this.showSignup = isPageChanges
+    //console.log('onPageChanges'+isPageChanges)
+  }
 
+  doSomething(isSignupChanges){
+    //console.log('doSomething'+isSignupChanges)
+    this.showSignup = isSignupChanges
   }
 
   isMap(path) {
@@ -158,6 +122,7 @@ export class AppComponent implements OnInit {
       return true;
     }
   }
+
   errMsg
   doLogin() {
     //console.log('dologin', this.signin.value)
@@ -166,17 +131,17 @@ export class AppComponent implements OnInit {
       this.authService.getAccessToken(this.signin.value.userName, this.signin.value.password)
         .subscribe(acessToken => {
 
-          console.log('resposce ', acessToken)
+          //console.log('resposce ', acessToken)
 
           if (acessToken) {
             window.localStorage.setItem('authToken', JSON.stringify(acessToken))
             this.authService.getUserDetails(this.signin.value.userName)
               .subscribe(data => {
-                console.log('user details', JSON.stringify(data))
+                //console.log('user details', JSON.stringify(data))
                 window.localStorage.setItem('Role', JSON.stringify(data.Role.RoleID))
                 window.localStorage.setItem('UserId', JSON.stringify(data.UserID))
                 window.localStorage.setItem('username', JSON.stringify(data.UserName));
-                window.localStorage.setItem('name', JSON.stringify(data.FirstName + '' +' ' + ' '+ data.LastName))
+                window.localStorage.setItem('name', JSON.stringify(data.FirstName + '' + ' ' + ' ' + data.LastName))
                 this.ifLogin = true;
                 this.router.navigate(['/dashboard']);
               })
@@ -186,7 +151,7 @@ export class AppComponent implements OnInit {
 
             setTimeout(() => {
               this.errMsg = false;
-              console.log('invalid password')
+              //console.log('invalid password')
             }, 2000)
 
           }
@@ -196,114 +161,5 @@ export class AppComponent implements OnInit {
   }
 
 
-  forgotPwd() {
-    // console.log('forgotPwd')
-  }
-  showSignup = false
-
-  selectDistrict(discrict) {
-    // console.log(discrict)
-    // console.log(this.districtId)
-
-    this.authService.getEpaByDistrictId(discrict.DistrictID)
-      .subscribe(res => {
-        this.epaArray = res
-        //console.log(this.epaArray)
-      })
-  }
-
-  selectEpa(epa) {
-    console.log(epa)
-    console.log(this.epaId)
-
-    this.authService.GetSectionByEPAId(epa.ID)
-      .subscribe(res => {
-        this.sectionArray = res
-        console.log(this.sectionArray)
-      })
-  }
-
-  selectSection(sectionId) {
-    console.log(sectionId)
-    console.log(this.sectionId)
-  }
-
-  onRegister() {
-    console.log('onRegister', this.signup.value)
-    let formObj = this.signup.value
-
-
-    var user = {
-      Role: {
-        RoleID: 4
-      },
-      FirstName: formObj.firstname,
-      MiddleName: formObj.middlename,
-      LastName: formObj.lastname,
-      Email: formObj.email,
-      MobileNumber: formObj.mobile,
-      UserName: formObj.username,
-      Password: formObj.password,
-
-      Address: {
-        AddressLine1: formObj.village,
-        Region: {
-          RegionID: formObj.regions.RegionID
-        },
-        State: {
-          StateID: formObj.states.StateID
-        },
-        Country: {
-          CountryID: formObj.countries.CountryID
-        },
-        District: {
-          DistrictID: formObj.districts.DistrictID
-        },
-        EPA: {
-          ID: formObj.epas.ID
-        },
-        Section: {
-          ID: formObj.sections.ID
-        },
-        PostalCode: formObj.pobox
-      }
-
-    }
-
-
-    let FarmDetails = 'FarmDetails'
-    //let FarmAddress = 'FarmAddress' 
-
-    user[FarmDetails] = {
-      FarmAddress: '',
-      FarmContact: ''
-    }
-
-
-    console.log(JSON.stringify(user))
-    this.authService.createUser(user)
-      .subscribe(res => {
-        console.log(JSON.stringify(res))
-        if (res == 1) {
-          this.showSignup = false;
-          this.Alert = true
-        } else {
-          this.errSignUpAlert = true
-        }
-      })
-
-
-  }
-  selectCountry() {
-
-  }
-
-  selectState() {
-
-  }
-
-  selectRegion() {
-
-  }
-
+  
 }

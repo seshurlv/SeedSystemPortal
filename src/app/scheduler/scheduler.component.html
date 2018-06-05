@@ -13,7 +13,7 @@
               <div class="col-md-8">
                 <h4 class="title">Scheduler List</h4>
               </div>
-              <div class="col-md-4" style="text-align: right; color: #8bbd3a; font-size: 34px">
+              <div class="col-md-4 plus-icon">
                 <i class="fas fa-plus-circle" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;"></i>
               </div>
             </div>
@@ -24,33 +24,39 @@
             <table class="table table-hover table-striped">
               <thead>
                 <tr>
-                    <th>Grower Name
-                    </th>
+                  <th>Grower Name
+                  </th>
                   <!-- <th  style="cursor:pointer;" (click)="sortGrower(sortgrower)" >Grower Name
                       <i class="fas fa-chevron-up" *ngIf="sortgrower"></i>
                       <i class="fas fa-chevron-down" *ngIf="!sortgrower"></i>
                   </th> -->
-                  <th >Inspector Name
-                      <!-- <i class="fas fa-chevron-up"></i> -->
+                  <th>Inspector Name
+                    <!-- <i class="fas fa-chevron-up"></i> -->
                   </th>
                   <th>Seed Class</th>
                   <th>Crop Name</th>
                   <th>Varient Name</th>
                   <th>Status</th>
                   <th style="cursor:pointer;" (click)="toogleArrow(arrow)">Assigned Date
-                      <i class="fas fa-chevron-up" *ngIf="arrow"></i>
-                      <i class="fas fa-chevron-down" *ngIf="!arrow"></i>
+                    <i class="fas fa-chevron-up" *ngIf="arrow"></i>
+                    <i class="fas fa-chevron-down" *ngIf="!arrow"></i>
                   </th>
                 </tr>
               </thead>
               <tbody>
+
                 <tr *ngFor="let Scheduler of SchedulerArr | reverse:arrow:sortgrower  | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>{{Scheduler.GrowerName}}</td>
                   <td>{{Scheduler.InspectorName}}</td>
                   <td>{{Scheduler?.ProductClass.ClassName}}</td>
                   <td>{{Scheduler.ProductCategory.ProductCategoryName}}</td>
                   <td>{{Scheduler.Product.ProductName}}</td>
-                  <td>{{Scheduler.Status}}</td>
+                  <td [ngClass]="{'insp-status-hover' : Scheduler.Status == 'Inspected'}" (click)="getObv(Scheduler)" data-toggle="modal" [attr.data-target]="'#' + Scheduler.Status">
+                    {{Scheduler.Status}}
+                    <span *ngIf="Scheduler.Status == 'Inspected' ">
+                      <i [ngClass]="{'insp-status' : Scheduler.Status == 'Inspected'}" class="fas fa-info-circle"></i>
+                    </span>
+                  </td>
                   <td>{{Scheduler.UpdatedAt | date:'dd/MM/yyyy'}}</td>
                 </tr>
               </tbody>
@@ -82,7 +88,7 @@
           <div class="form-group">
             <label class="control-label">Growers List*</label>
             <select class="form-control custom-select" [(ngModel)]="user" (change)="selectGrower()" formControlName="grower">
-
+              <option disabled *ngIf="!user" [ngValue]="user ? null : user" >Select Grower</option>
               <option *ngFor="let grower of GrowersArr" [ngValue]="grower">
                 {{grower.FirstName}}
               </option>
@@ -123,7 +129,7 @@
           <div class="form-group">
             <label class="control-label">Para Seed Inspector*</label>
             <select class="form-control custom-select" [(ngModel)]="psi" (change)="selectPsi()" formControlName="psi">
-
+              <option disabled *ngIf="!psi" [ngValue]="psi ? null : psi" >Select Inspector</option>
               <option *ngFor="let psi of PSIArr" [ngValue]="psi">
                 {{psi.FirstName}} &nbsp; {{psi.LastName}}
               </option>
@@ -138,6 +144,220 @@
         </form>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="Inspected" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Observation Details </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="Obv" style="font-size: 15px;margin: 1px;letter-spacing: 1px;">
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Observation Id
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.ID}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Maximum % Off-types
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.OffTypePlants ? Obv?.OffTypePlants : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Pest Disease Score
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.PestDiseaseScore ? Obv?.PestDiseaseScore : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Planting Pattern
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.PlantingPattern ? Obv?.PlantingPattern : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Pollinating Females
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.PollinatingFemales ? Obv?.PollinatingFemales : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Female Receptive Silks
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.FemaleReceptiveSilks ? Obv?.FemaleReceptiveSilks : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Male Elimination
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.MaleElimination ? Obv?.MaleElimination : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Off-Type Cobs
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.OffTypeCobs ? Obv?.OffTypeCobs : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Defective Cobs
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.DefectiveCobs ? Obv?.DefectiveCobs : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Remarks By Inspector
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.RemarksByInspector ? Obv?.RemarksByInspector : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Recommendation For Grower
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.RecommendationForGrower ? Obv?.RecommendationForGrower : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Crop Stage
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.CropStage ? Obv?.CropStage : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Isolation Distance Maintained
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.IsIsolationDistanceMaintained ? 'Yes' : 'No'}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Growth Condition
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.GrowthCondition ? Obv?.GrowthCondition : "NA"}}
+          </div>
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Date Of Sowing
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.DateOfSowing | date:'dd/MM/yyyy'}}
+          </div>
+          <!-- <div class="col-md-5">
+              {{Obv?.DateOfSowing  ? Obv?.DateOfSowing | date:'dd/MM/yyyy' : "NA"  }}
+            </div> -->
+        </div>
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Recommendation for certification
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.RecommendationForCertification ? 'Yes' : 'No'}}
+          </div>
+        </div>
+
+
+
+        <div class="row obv-modal">
+          <div class="col-md-7 col-sm-7 col-xs-7">
+            Status
+            <div class="floatRight">:
+            </div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            {{Obv?.Status}}
+          </div>
+        </div>
+
+      </div>
+      <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
     </div>
   </div>
 </div>

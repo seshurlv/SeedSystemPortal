@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(){
-    console.log('dologin',this.user)
+    //console.log('dologin',this.user)
 
     this.router.navigate(['/app']);
     

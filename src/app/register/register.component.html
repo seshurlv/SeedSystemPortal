@@ -1,7 +1,7 @@
 <div class="content" style="    padding: 30px 15px;overflow: hidden;">
     <div class="container">
         <div *ngIf="inspection">
-            <div id="loader" *ngIf="GrowersArr?.length == 0">
+            <div id="loader" *ngIf="seedClassArr?.length == 0">
                 <img src="assets/img/loader-preview.svg" alt="loading">
             </div>
         </div>
@@ -31,37 +31,42 @@
             </div>
         </div>
 
-        <div class="row" *ngIf=" countriesArr?.length != 0 || GrowersArr?.length != 0">
+        <div class="row card-padding" *ngIf=" countriesArr?.length != 0 || seedClassArr?.length != 0">
             <div class="col-md-11">
-                <div class="card">
+                <div class="card card-padding">
 
                     <div class="header">{{title}}</div>
 
-                    <div class="content">
-                        <!-- {{user | json}} -->
-                        <form [formGroup]="form" (ngSubmit)="onRegister()">
 
-                            <div class="form-group" *ngIf="inspection">
-                                <label class="control-label">Growers List*</label>
-                                <select class="form-control custom-select" [(ngModel)]="user" (change)="selectGrower(user.UserID)" formControlName="grower">
-                                    <!-- <option disabled selected>Please select...</option> -->
-                                    <option disabled [ngValue]="user.FirstName ? null : user">Select Grower</option>
-                                    <option *ngFor="let grower of GrowersArr" [ngValue]="grower">
-                                        {{grower.FirstName}}
-                                    </option>
-                                </select>
-                            </div>
 
+                    <div class="row">
+                        <div class="col-md-4 ngxSelect" *ngIf="inspection">
+                            <!-- {{grower | json}} -->
+                            <ngx-select-dropdown [config]="config" [options]="GrowersArr" [(value)]="grower" [multiple]="false" (change)="selectGrower(grower,user)">
+                            </ngx-select-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 ngxSelect">
                             <div class="form-group" *ngIf="!inspection">
                                 <label class="control-label">Select Role*</label>
-                                <select class="form-control custom-select" [(ngModel)]="roleId" (change)="selectRole(roleId)" formControlName="role">
-                                    <option disabled [ngValue]="roleId ? null : roleId">Select Role</option>
+                                <select class="form-control custom-select" [(ngModel)]="roleId" (change)="selectRole(roleId)">
+                                    <option *ngIf="!roleId" disabled [ngValue]="roleId ? null : roleId">Select Role</option>
                                     <option *ngFor="let roles of RolesArr" [ngValue]="roles.RoleID">
                                         {{roles.Name}}
                                     </option>
                                 </select>
                             </div>
-                            <!-- {{user | json}} -->
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <!-- {{user | json}} -->
+                        <!-- <app-common [userRole]="roleId" [pageBool]="inspection"></app-common> -->
+
+                        <form [formGroup]="form" (ngSubmit)="onRegister()">
+
                             <fieldset [disabled]="inspection">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -69,6 +74,9 @@
                                             <label class="control-label" for="">First Name*
                                             </label>
                                             <input class="form-control" type="text" [(ngModel)]="user.FirstName" formControlName="firstname" placeholder="First Name">
+                                            <p class="alert alert-danger" *ngIf="form.controls['firstname'].hasError('pattern')">
+                                                Please enter a valid name.
+                                            </p>
 
                                         </div>
                                     </div>
@@ -77,6 +85,9 @@
                                             <label class="control-label" for="">Middle Name
                                             </label>
                                             <input class="form-control" type="text" [(ngModel)]="user.MiddleName" formControlName="middlename" placeholder="Middle Name">
+                                            <p class="alert alert-danger" *ngIf="form.controls['middlename'].hasError('pattern')">
+                                                Please enter a valid name.
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -84,6 +95,9 @@
                                             <label class="control-label" for="">Last Name*
                                             </label>
                                             <input class="form-control" [(ngModel)]="user.LastName" formControlName="lastname" type="text" placeholder="Last Name">
+                                            <p class="alert alert-danger" *ngIf="form.controls['lastname'].hasError('pattern')">
+                                                Please enter a valid name.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +123,7 @@
                                             <input class="form-control" [(ngModel)]="user.MobileNumber" formControlName="mobile" type="text" placeholder="Mobile">
 
                                             <p class="alert alert-danger" *ngIf="form.controls['mobile'].hasError('maxlength')">
-                                                Your mobile number cannot exceed 10 characters.
+                                                Your mobile number cannot exceed 9 characters.
                                             </p>
                                             <div *ngIf="!form.controls['mobile'].hasError('maxlength')">
                                                 <p class="alert alert-danger" *ngIf="form.controls['mobile'].hasError('pattern')">
@@ -141,68 +155,9 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label">District*</label>
-                                            <select *ngIf="!inspection" class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId"
-                                                (change)="selectDistrict(user.districtId)">
-                                                <option disabled [ngValue]="user.districtId ? null : user.districtId">Select District</option>
-                                                <option *ngFor="let district of districtsArr" [ngValue]="district">
-                                                    {{district.DistrictName}}
-                                                </option>
-                                            </select>
-                                            <select *ngIf="inspection" class="form-control custom-select">
-                                                <option>
-                                                    {{user?.Address.District.DistrictName}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">EPA*</label>
-                                            <select [disabled]="epaArray?.length == 0" *ngIf="!inspection" class="form-control custom-select" formControlName="epas"
-                                                [(ngModel)]="user.epaId" (change)="selectEpa(user.epaId)">
-                                                <option disabled [ngValue]="user.epaId ? null : user.epaId">Select EPA</option>
-                                                <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
-                                                    {{epa.EPAName}}
-                                                </option>
-                                            </select>
-                                            <select *ngIf="inspection" class="form-control custom-select">
-                                                <option>
-                                                    {{user?.Address.EPA.EPAName}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Section*</label>
-                                            <select *ngIf="!inspection" class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
-                                                [disabled]="sectionArray?.length == 0">
-                                                <option disabled [ngValue]="user.sectionId ? null : user.sectionId">Select Section</option>
-                                                <option *ngFor="let section of sectionArray" [ngValue]="section">
-                                                    {{section.SectionName}}
-                                                </option>
-                                            </select>
-
-                                            <select *ngIf="inspection" class="form-control custom-select">
-                                                <option>
-                                                    {{user?.Address.Section.SectionName}}
-                                                </option>
-                                            </select>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label class="control-label">Country*</label>
                                             <select *ngIf="!inspection" class="form-control custom-select" formControlName="countries" [(ngModel)]="user.country" (change)="selectCountry(user.country)">
-                                                <option disabled [ngValue]="user.country ? null : user.country">Select Country</option>
+                                                <option *ngIf="!user.country" disabled [ngValue]="user.country ? null : user.country">Select Country</option>
                                                 <option *ngFor="let countries of countriesArr" [ngValue]="countries">
                                                     {{countries.CountryName}}
                                                 </option>
@@ -220,7 +175,7 @@
                                         <div class="form-group">
                                             <label class="control-label">State*</label>
                                             <select *ngIf="!inspection" class="form-control custom-select" formControlName="states" [(ngModel)]="user.state" (change)="selectState(user.state)">
-                                                <option disabled [ngValue]="user.state ? null : user.state">Select State</option>
+                                                <option *ngIf="!user.state" disabled [ngValue]="user.state ? null : user.state">Select State</option>
                                                 <option selected *ngFor="let states of statesArr" [ngValue]="states">
                                                     {{states.StateName}}
                                                 </option>
@@ -239,7 +194,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Region*</label>
                                             <select *ngIf="!inspection" class="form-control custom-select" formControlName="regions" [(ngModel)]="user.region" (change)="selectRegion(user.region)">
-                                                <option disabled [ngValue]="user.region ? null : user.region">Select Region</option>
+                                                <option *ngIf="!user.region" disabled [ngValue]="user.region ? null : user.region">Select Region</option>
                                                 <option *ngFor="let regions of regionsArr" [ngValue]="regions">
                                                     {{regions.RegionName}}
                                                 </option>
@@ -255,6 +210,67 @@
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">District*</label>
+                                            <select *ngIf="!inspection" class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId"
+                                                (change)="selectDistrict(user.districtId)">
+                                                <option *ngIf="!user.districtId" disabled [ngValue]="user.districtId ? null : user.districtId">Select District</option>
+                                                <option *ngFor="let district of districtsArr" [ngValue]="district">
+                                                    {{district.DistrictName}}
+                                                </option>
+                                            </select>
+                                            <select *ngIf="inspection" class="form-control custom-select">
+                                                <option>
+                                                    {{user?.Address.District.DistrictName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">EPA*</label>
+                                            <select [disabled]="epaArray?.length == 0" *ngIf="!inspection" class="form-control custom-select" formControlName="epas"
+                                                [(ngModel)]="user.epaId" (change)="selectEpa(user.epaId)">
+                                                <option *ngIf="!user.epaId" disabled [ngValue]="user.epaId ? null : user.epaId">Select EPA</option>
+                                                <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
+                                                    {{epa.EPAName}}
+                                                </option>
+                                            </select>
+                                            <select *ngIf="inspection" class="form-control custom-select">
+                                                <option>
+                                                    {{user?.Address.EPA.EPAName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Section*</label>
+                                            <select *ngIf="!inspection" class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
+                                                [disabled]="sectionArray?.length == 0">
+                                                <option *ngIf="!user.sectionId" disabled [ngValue]="user.sectionId ? null : user.sectionId">Select Section</option>
+                                                <option *ngFor="let section of sectionArray" [ngValue]="section">
+                                                    {{section.SectionName}}
+                                                </option>
+                                            </select>
+
+                                            <select *ngIf="inspection" class="form-control custom-select">
+                                                <option>
+                                                    {{user?.Address.Section.SectionName}}
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label" for="">PO Box*
@@ -264,7 +280,7 @@
                                             <p class="alert alert-danger" *ngIf="form.controls['pobox'].hasError('maxlength')">
                                                 Your Postal Code cannot exceed 6 characters.
                                             </p>
-                                           
+
                                             <div *ngIf="!form.controls['pobox'].hasError('maxlength')">
                                                 <p class="alert alert-danger" *ngIf="form.controls['pobox'].hasError('pattern')">
                                                     Please enter a valid Postal Code.
@@ -280,15 +296,110 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div *ngIf="roleId == 4">
+                                    <table *ngIf="farmAddressArr.length > 0">
+
+                                        <tr>
+                                            <th class="table-borders">Farm Title</th>
+                                            <th class="table-borders">Farm Address</th>
+                                            <th class="table-borders">Farm Contact</th>
+                                            <th class="table-borders"></th>
+                                        </tr>
+                                        <tr *ngFor="let farmArr of farmAddressArr">
+                                            <td class="table-borders">{{farmArr.FarmTitle}}</td>
+                                            <td class="table-borders">{{farmArr.FarmAddress}}</td>
+                                            <td class="table-borders">{{farmArr.FarmContact}}</td>
+                                            <td class="table-borders">
+                                                <i class="fas fa-times-circle" (click)="removeMarker(farmArr.FarmLattitude)"></i>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <form [formGroup]="Farm">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="">Farm Title
+                                                    </label>
+                                                    <input class="form-control" formControlName="FarmTitle" type="text" placeholder="Farm Title">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="">Farm Address
+                                                    </label>
+                                                    <input class="form-control" formControlName="FarmAddress" type="text" placeholder="Farm Address">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="">Farm Contact Number
+                                                    </label>
+                                                    <input class="form-control" formControlName="FarmContact" type="text" placeholder="Farm Contact Number">
+
+                                                    <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('maxlength')">
+                                                        Your farm mobile number cannot exceed 10 characters.
+                                                    </p>
+                                                    <div *ngIf="!Farm.controls['FarmContact'].hasError('maxlength')">
+                                                        <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('pattern')">
+                                                            Please enter a valid mobile number.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <fieldset>
+                                        <!-- {{positions | json}} -->
+
+
+                                        <div class="row" >
+                                            <div class="col-md-2 ">
+                                                <label class="control-label" for="">Locate Farm Location
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8" *ngIf="cropValidationAlert">
+                                                <span class="label label-warning"> Please enter farm details before marking location </span>
+                                            </div>
+
+                                        </div>
+                                        <ngui-map center="{{lat}},{{long}}" (click)="onClick($event)">
+                                            <marker *ngFor="let pos of positions" [position]="pos" draggable="false" (click)="clicked($event)"></marker>
+
+                                            <info-window id="iw">
+                                                <div *ngIf="marker.display">
+                                                    lat: {{ marker.lat }}, lng: {{ marker.lng }}
+                                                    <img style="width: 75px;" src="assets/img/img_avatar.png">
+                                                </div>
+                                                <button (click)="hideMarkerInfo()">Hide Info</button>
+                                                <button (click)="removeMarker(marker.lat)" type="button">Remove</button>
+                                            </info-window>
+                                        </ngui-map>
+                                    </fieldset>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button [disabled]="!Farm.valid || (farmAddressArr.length == positions.length)" class="btn btn-success" type="button" (click)="saveLocation()">Save Location</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </fieldset>
 
                             <div *ngIf="!inspection">
-                                <button class="btn btn-success btn-fill pull-right" type="submit" [disabled]="!roleId  || !form.valid">Register</button>
+                                <div class="row">
+                                    <div class="col-md-12" *ngIf="roleId == 4">
+                                        <button class="btn btn-success btn-fill pull-right" type="submit" [disabled]="!roleId  || !form.valid || !(farmAddressArr.length > 0)">Register</button>
+                                    </div>
+                                    <div class="col-md-12" *ngIf="roleId != 4">
+                                        <button class="btn btn-success btn-fill pull-right" type="submit" [disabled]="!roleId  || !form.valid">Register</button>
+                                    </div>
+                                </div>
+
                                 <div class="clearfix"></div>
                             </div>
-
-
-
                         </form>
 
                         <div *ngIf="inspection">
@@ -298,7 +409,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Crop Species*</label>
                                             <select class="form-control custom-select" formControlName="product" [(ngModel)]="productCat" (change)="selectProdCat(productCat)">
-                                                <option disabled [ngValue]="productCat ? null : productCat">Select Crop</option>
+                                                <option *ngIf="!productCat" disabled [ngValue]="productCat ? null : productCat">Select Crop</option>
                                                 <option *ngFor="let productCat of prodCategoryArr" [ngValue]="productCat">
                                                     {{productCat.ProductCategoryName}}
                                                 </option>
@@ -309,7 +420,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Variety*</label>
                                             <select class="form-control custom-select" formControlName="productCategory" [(ngModel)]="productVariety">
-                                                <option disabled [ngValue]="productVariety ? null : productVariety">Select Variety</option>
+                                                <option *ngIf="!productVariety" disabled [ngValue]="productVariety ? null : productVariety">Select Variety</option>
                                                 <option selected *ngFor="let product of productArr" [ngValue]="product">
                                                     {{product.ProductName}}
                                                 </option>
@@ -318,11 +429,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" for="">Area(hectares)*
+                                            <label class="control-label" for="">Area(Hectares)*
                                             </label>
-                                            <input class="form-control" formControlName="area" type="text" placeholder="Area in hectares">
+                                            <input class="form-control" formControlName="area" type="text" placeholder="Area in Hectares">
                                             <p class="alert alert-danger" *ngIf="Inspform.controls['area'].hasError('pattern')">
-                                                   Area should not exceed two decimals.
+                                                Area should not exceed two decimals.
                                             </p>
                                         </div>
                                     </div>
@@ -336,7 +447,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Class Of Seed*</label>
                                             <select class="form-control custom-select" formControlName="seedclass" [(ngModel)]="productClass">
-                                                <option disabled [ngValue]="productClass ? null : productClass">Select Class Of Seed</option>
+                                                <option *ngIf="!productClass" disabled [ngValue]="productClass ? null : productClass">Select Class Of Seed</option>
                                                 <option selected *ngFor="let seedClass of seedClassArr" [ngValue]="seedClass">
                                                     {{seedClass.ClassName}}
                                                 </option>
@@ -347,7 +458,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Source Of Seed*</label>
                                             <select class="form-control custom-select" formControlName="seedsource" [(ngModel)]="productSource">
-                                                <option disabled [ngValue]="productSource ? null : productSource">Select Source Of Seed</option>
+                                                <option *ngIf="!productSource" disabled [ngValue]="productSource ? null : productSource">Select Source Of Seed</option>
                                                 <option selected *ngFor="let sourceSeed of sourceSeedArr" [ngValue]="sourceSeed">
                                                     {{sourceSeed.sourceSeedId}}
                                                 </option>
@@ -356,15 +467,9 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Certificate ID of the Source Seed</label>
-                                            <select class="form-control custom-select" formControlName="certificateid" [(ngModel)]="productCertificate">
-                                                <option disabled [ngValue]="productCertificate ? null : productCertificate">Select Certificate ID</option>
-                                                <option *ngFor="let seedCert of seedCertificateArr" [ngValue]="seedCert">
-                                                    {{seedCert.certId}}
-                                                </option>
-                                            </select>
-                                        </div>
+                                        <label class="control-label">Certificate ID of the Source Seed</label>
+                                        <ngx-select-dropdown type="button" [config]="certConfig" [options]="seedCertificateArr" [(value)]="certId" [multiple]="false">
+                                        </ngx-select-dropdown>
                                     </div>
                                 </div>
 
@@ -387,7 +492,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Previous Cropping History</label>
                                             <select class="form-control custom-select" formControlName="crophis" [(ngModel)]="productHis">
-                                                <option disabled [ngValue]="productHis ? null : productHis">Previous Cropping History</option>
+                                                <option *ngIf="!productHis" disabled [ngValue]="productHis ? null : productHis">Previous Cropping History</option>
                                                 <option *ngFor="let preCropHis of prodCategoryArr" [ngValue]="preCropHis">
                                                     {{preCropHis.ProductCategoryName}}
                                                 </option>
@@ -415,7 +520,7 @@
                                             <label class="control-label" for="">Evidence of the seed*
                                             </label>
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 col-xs-offset-2 col-sm-2  col-xs-2">
                                                     <div class="radio">
                                                         <input checked="" id="radio5" name="seedevidence" type="radio" value="true" formControlName="seedevidence">
                                                         <label for="radio5">
@@ -423,7 +528,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
                                                     <div class="radio">
                                                         <input id="radio6" name="seedevidence" type="radio" value="false" formControlName="seedevidence">
                                                         <label for="radio6">
@@ -440,23 +545,34 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label class="control-label" for="">Remarks
+                                            </label>
+                                            <input class="form-control" formControlName="remarks" type="text" placeholder="Remarks">
+                                        </div>
+                                        <!-- <div class="form-group">
                                             <label class="control-label">Map</label>
                                             <input class="form-control" formControlName="map" type="text" placeholder="Map">
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="control-label" for="">Remarks
-                                    </label>
-                                    <textarea class="form-control" formControlName="remarks" type="textarea" placeholder="Remarks"></textarea>
-                                </div>
 
 
+
+                                <!-- {{positions | json}} -->
+                                <!-- <ngui-map zoom="13" center="dedza malavi">
+                                    <marker *ngFor="let pos of positions" [position]="pos" (click)="clicked($event,pos)"></marker>
+                                    <info-window id="iw">
+                                        <div *ngIf="marker?.display">
+                                            {{marker.display}} lat: {{ marker.lat }}, lng: {{ marker.lng }}
+                                            <img style="width: 75px;" src="assets/img/img_avatar.png">
+                                        </div>
+                                        <button (click)="hideMarkerInfo()">Hide Info</button>
+                                    </info-window>
+                                </ngui-map> -->
 
                                 <div>
                                     <button *ngIf="inspection" class="btn btn-success btn-fill pull-right" type="submit" [disabled]="!user.UserID  || !Inspform.valid">submit</button>
-
                                     <div class="clearfix"></div>
                                 </div>
 

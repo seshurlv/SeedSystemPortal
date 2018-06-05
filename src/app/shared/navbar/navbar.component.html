@@ -19,7 +19,7 @@
                 </li> -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-globe"></i>
+                        <i class="fas fa-bell"></i>
                         <b class="caret"></b>
                         <span class="notification hidden-sm hidden-xs">5</span>
                         <p class="hidden-lg hidden-md">
@@ -86,8 +86,8 @@
                     <img src="/assets/img/img_avatar.png" alt="Avatar" class=" avatar">
                     <!-- <button class="dropbtn">Dropdown</button> -->
                     <div class="dropdown-content">
-                        <a [routerLink]="['/user']">Profile</a>
-                        <a (click)="logOut()" href="">Sign out</a>
+                        <a [routerLink]="['/user']"> <span style="margin-right: 10px;"><i class="fas fa-user"></i></span> Profile</a>
+                        <a (click)="logOut()" href=""> <span style="margin-right: 10px;"><i class="fas fa-power-off"></i></span> Sign out</a>
 
                     </div>
                 </div>

@@ -14,14 +14,14 @@ export class InspectorAssignmentsComponent implements OnInit {
   ngOnInit() {
     let mode = 1
     let UserID = window.localStorage.getItem('UserId')
-    console.log(UserID)
+    //console.log(UserID)
     this.authService.GetRegistrationsByUser(mode,UserID)
     .subscribe(res => {
-      console.log(JSON.stringify(res))
+      //console.log(JSON.stringify(res))
       this.growers = res
       //this.newGrowers = this.growers
       this.newGrowers = this.growers.filter((grower) => {
-        console.log(grower.Status)
+        //console.log(grower.Status)
         return grower.Status == 'Assigned'
       })
 
@@ -30,7 +30,7 @@ export class InspectorAssignmentsComponent implements OnInit {
 
   arrow = true
   toogleArrow(arrow) {
-    console.log(arrow)
+    //console.log(arrow)
     this.arrow = !arrow
   }
 

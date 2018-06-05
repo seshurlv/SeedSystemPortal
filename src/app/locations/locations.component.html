@@ -1,0 +1,324 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div *ngIf="router.url == '/country'">
+      <div id="loader" *ngIf="countriesList?.length == 0">
+        <img src="assets/img/loader-preview.svg" alt="loading">
+      </div>
+    </div>
+    <div *ngIf="router.url == '/state'">
+      <div id="loader" *ngIf="statesList?.length == 0">
+        <img src="assets/img/loader-preview.svg" alt="loading">
+      </div>
+    </div>
+    <div *ngIf="router.url == '/district'">
+      <div id="loader" *ngIf="districtsList?.length == 0">
+        <img src="assets/img/loader-preview.svg" alt="loading">
+      </div>
+    </div>
+
+
+
+    <!-- countriesList -->
+    <div *ngIf="router.url == '/country'">
+      <div class="row" *ngIf="countriesList?.length != 0">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="card">
+            <div class="header">
+              <div class="row">
+                <div class="col-md-8">
+                  <h4 class="title">Countries List</h4>
+                </div>
+                <div class="col-md-4 plus-icon">
+                  <i (click)="showCountryModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#locationModal" style="cursor: pointer;"></i>
+                </div>
+              </div>
+            </div>
+            <div class="content table-responsive table-full-width">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Country Name</th>
+                    <th>Country Code</th>
+                    <th>Country Telephone Code</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let country of countriesList  | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{country.CountryName}}</td>
+                    <td>{{country.CountryCode}}</td>
+                    <td>{{country.CountryPhoneCode}}</td>
+                    <td>
+                      <i style="cursor: pointer;" (click)="editCountry(country)" class="fas fa-pencil-alt" data-toggle="modal" data-target="#locationModal"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- statesList -->
+    <div class="row" *ngIf="statesList?.length != 0">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="card">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="title">States List</h4>
+              </div>
+              <div class="col-md-4 plus-icon">
+                <i (click)="showStateModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#stateModal" style="cursor: pointer;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="content table-responsive table-full-width">
+
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+
+                  <th>State Name</th>
+                  <th>Country Name</th>
+                  <th>Region </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let state of statesList  | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{state.StateName}}</td>
+                  <td>{{state?.Country?.CountryName}}</td>
+                  <td>{{state?.Region?.RegionName}}</td>
+                  <td>
+                    <i style="cursor: pointer;" (click)="editState(state)" class="fas fa-pencil-alt" data-toggle="modal" data-target="#stateModal"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- districtsList -->
+    <div class="row" *ngIf="districtsList?.length != 0">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="card">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="title">Districts List</h4>
+              </div>
+              <div class="col-md-4 plus-icon">
+                <i (click)="showDistrictModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#districtModal" style="cursor: pointer;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>District Name</th>
+                  <th>State Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let district of districtsList  | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{district.DistrictName}}</td>
+                  <td>{{district.State.StateName}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="locationModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 15px;margin: 1px;letter-spacing: 1px;">
+        <form [formGroup]="countryForm">
+          <div class="row">
+
+            <div class="col-md-12">
+             
+              <div class="form-group">
+                <label class="control-label" for="">Country Name*
+                </label>
+                <input class="form-control" formControlName="countryName" type="text" placeholder="Enter Country Name">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="">Country Code*
+                </label>
+                <input class="form-control" formControlName="countryCode" type="text" placeholder="Enter Country Code">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="">Country Telephone Code*
+                </label>
+                <input class="form-control" formControlName="countryTelephonecode" type="text" placeholder="Enter Country Telephone Code">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" (click)="saveLocationSubmit()" data-dismiss="modal" [disabled]="!countryForm.valid">Save Country</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="stateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 15px;margin: 1px;letter-spacing: 1px;">
+        <form [formGroup]="stateForm">
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <div class="form-group">
+                <label class="control-label" for="">State Name*
+                </label>
+                <input class="form-control" formControlName="stateName" type="text" [(ngModel)]="state" placeholder="Enter State Name">
+              </div>       
+
+              <div class="form-group" *ngIf="!editBool">
+                <label class="control-label">Country*</label>
+                <select class="form-control custom-select" formControlName="countryId" [(ngModel)]="country" (change)="selectCountry(country)">
+                  <option disabled *ngIf="!selectBoolCountry" [value]="selectBoolCountry ? null : country">{{stateForm.value.countryId}}</option>
+                  <option *ngFor="let countries of countriesList" [value]="countries.CountryID">
+                    {{countries.CountryName}}
+                  </option>
+                </select>
+              </div>
+              
+              <div class="form-group" *ngIf="editBool">
+                <label class="control-label">Country*</label>
+                <select class="form-control custom-select" formControlName="countryId" [(ngModel)]="country" (change)="selectCountry(country)">
+                  <option disabled [ngValue]="country ? null : country">Select Country</option>
+                  <option *ngFor="let countries of countriesList" [ngValue]="countries.CountryID">
+                    {{countries.CountryName}}
+                  </option>
+                </select>
+              </div>
+              
+              <div class="form-group" *ngIf="!editBool">
+                <label class="control-label">Region*</label>
+                <select class="form-control custom-select" formControlName="regionId" [(ngModel)]="region" (change)="selectRegion(region)">
+                    <option disabled  *ngIf="!selectBoolRegion" [ngValue]="selectBoolRegion ? null : region">{{stateForm.value.regionId}}</option>
+                  <option *ngFor="let regions of regionsList" [ngValue]="regions.RegionID">
+                    {{regions.RegionName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group" *ngIf="editBool">
+                  <label class="control-label">Region</label>
+                  <select class="form-control custom-select" formControlName="regionId" [(ngModel)]="region" (change)="selectRegion(region)">
+                    <option disabled [ngValue]="region ? null : region">Select Region*</option>
+                    <option *ngFor="let regions of regionsList" [ngValue]="regions.RegionID">
+                      {{regions.RegionName}}
+                    </option>
+                  </select>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" (click)="saveStateSubmit()" data-dismiss="modal" [disabled]="!state || !selectBoolCountry || !selectBoolRegion">Save State</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="modal fade" id="districtModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="font-size: 15px;margin: 1px;letter-spacing: 1px;">
+        <form [formGroup]="districtForm">
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <div class="form-group">
+                <label class="control-label" for="">District Name*
+                </label>
+                <input class="form-control" formControlName="districtName" type="text" [(ngModel)]="district" placeholder="Enter District Name">
+              </div>       
+
+              <div class="form-group" >
+                <label class="control-label">State*</label>
+                <select class="form-control custom-select" formControlName="stateId" [(ngModel)]="state" (change)="selectCountry(country)">
+                  <option disabled [ngValue]="state ? null : state">Select Country</option>
+                  <option *ngFor="let countries of countriesList" [ngValue]="countries.CountryID">
+                    {{countries.CountryName}}
+                  </option>
+                </select>
+              </div>
+
+             <div class="form-group" >
+                <label class="control-label">Country*</label>
+                <select class="form-control custom-select" formControlName="countryId" [(ngModel)]="country" (change)="selectCountry(country)">
+                  <option disabled *ngIf="!selectBoolCountry" [value]="selectBoolCountry ? null : country">{{stateForm.value.countryId}}</option>
+                  <option *ngFor="let countries of countriesList" [value]="countries.CountryID">
+                    {{countries.CountryName}}
+                  </option>
+                </select>
+              </div>
+                         
+              
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" (click)="saveDistrictSubmit()" data-dismiss="modal" [disabled]="!districtForm.valid">Save State</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div> -->

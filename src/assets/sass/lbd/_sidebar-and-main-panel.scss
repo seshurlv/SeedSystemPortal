@@ -372,8 +372,21 @@
     z-index: 4;
 }
 
-.container {
-    width: 1170px;
+// .container {
+//     // width: 1170px;
+//     padding-right: 15px;
+//     padding-left: 15px;
+//     margin-right: auto;
+//     margin-left: auto;
+// }
+@media only screen and (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.ng-maps-margin {
+    margin-bottom: 10px;
 }
 
 .login-page .card {
@@ -490,7 +503,7 @@ label {
 }
 
 .pull-right {
-    float: right!important;
+    float: right !important;
 }
 
 .navbar.navbar-absolute {
@@ -567,16 +580,19 @@ label {
 }
 
 [type="date"] {
-    background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  95% 50% no-repeat ;
-  }
-  [type="date"]::-webkit-inner-spin-button {
+    background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 95% 50% no-repeat;
+}
+
+[type="date"]::-webkit-inner-spin-button {
     display: none;
-  }
-  [type="date"]::-webkit-calendar-picker-indicator {
+}
+
+[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
-  }
-  
-  /* custom styles */
+}
+
+/* custom styles */
+
 //   body {
 //     padding: 4em;
 //     background: #e5e5e5;
@@ -593,8 +609,8 @@ label {
 //     box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
 //     width: 190px;
 //   }
-
-.alert-dismissable .close, .alert-dismissible .close{
+.alert-dismissable .close,
+.alert-dismissible .close {
     position: inherit;
 }
 
@@ -608,25 +624,25 @@ label {
 //     font-weight: 600;
 //     font-size: 13px;
 // }
-
-.alert-dismissable .close, .alert-dismissible .close{
+.alert-dismissable .close,
+.alert-dismissible .close {
     right: 0px;
 }
 
-.err-msg{
+.err-msg {
     text-align: center;
     color: red;
     font-size: 14px;
     margin: 0px;
 }
 
-.obv-modal{
+.obv-modal {
     margin: 0px;
     padding: 5px;
     border-bottom-style: inset;
 }
 
-.floatRight{
+.floatRight {
     float: right;
 }
 
@@ -634,42 +650,94 @@ label {
 //     padding: 8px 8px !important;
 //     font-size: 15px;
 // }
-
-.sidebar .logo .simple-text, .bootstrap-navbar .logo .simple-text{
+.sidebar .logo .simple-text,
+.bootstrap-navbar .logo .simple-text {
     font-size: 22px;
-    margin-top: 4px; 
+    margin-top: 4px;
     cursor: pointer;
 }
 
-.navbar .navbar-brand{
+.navbar .navbar-brand {
     font-weight: bold !important;
     font-size: 15px !important;
 }
 
-svg > g > g:last-child { pointer-events: none }
+svg>g>g:last-child {
+    pointer-events: none
+}
 
-.footer{
+.footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
 }
 
-.modal-header{
+.modal-header {
     background: #A5D75A;
-color: #fff;
+    color: #fff;
 }
 
-.modal-title{
+.modal-title {
     float: left;
+    text-transform: capitalize
 }
 
 .googleChart {
-    width: 100%; 
+    width: 100%;
     min-height: 450px;
-  }
+}
 
-  .pagination-list{
+.pagination-list {
     text-align: center;
     font-size: 14px;
+}
+
+.insp-status {
+    cursor: pointer;
+    color: #0c9af3;
+}
+
+.insp-status-hover {
+    cursor: pointer;
+}
+
+.ngx-dropdown-list-container {
+    overflow-y: scroll;
+    max-height: 400px;
+    height: 307px;
+}
+
+.ngxSelect {
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+.card-padding {
+    padding-bottom: 25px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    // border: 1px solid #dddddd;
+    text-align: left;
+    padding: 7px;
+    text-transform: uppercase
+}
+
+.table-borders {
+    border: 1px solid #dddddd;
+}
+
+.plus-icon {
+    text-align: right;
+    color: #8bbd3a;
+    font-size: 34px
 }

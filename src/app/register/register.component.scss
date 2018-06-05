@@ -3,22 +3,25 @@
     min-height: calc(100vh - 136px);
 }
 
-select{
-    background: transparent;
-    width: 253px;
+select {
+    background: transparent; // width: 253px;
     padding: 5px 35px 5px 5px;
     font-size: 16px;
     border: 1px solid #ccc;
     height: 34px;
 }
 
-
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
 input[type=number] {
-    -moz-appearance:textfield;
+    -moz-appearance: textfield;
 }
+
+.ui-select-choices.dropdown-menu {
+    display: block;
+}
+

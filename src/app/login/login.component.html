@@ -1,97 +1,225 @@
-<!-- <div class="wrapper wrapper-full-page">
-  <div class="full-page login-page" data-color="red" data-image="#">
+<form [formGroup]="signup" (ngSubmit)="onRegister()">
+    <div class="card">
+        <div class="header text-center">Sign up</div>
 
-  
-      <nav class="navbar navbar-primary navbar-transparent navbar-absolute">
-          <div class="container">
-              <div class="navbar-header">
-                  <button class="navbar-toggle" data-target="#navigation-example-2" data-toggle="collapse" type="button">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" routerlinkactive="active" href="/dashboard">SEED SYSTEM UNIT</a>
-              </div>
-              <div class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav navbar-right">
-                     
-                      <li>
-                          <a routerlinkactive="active" class="active"  [routerLink]="['Login']">
-                              <i aria-hidden="true" class="fa fa-sign-in"></i>
-                              <p>Login</p>
-                          </a>
-                      </li>
-                      
-                      
-                  </ul>
-              </div>
-          </div>
-      </nav>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">First Name:
+                        </label>
+                        <input placeholder="First Name" class="form-control" type="text" [(ngModel)]="user.FirstName" formControlName="firstname">
+                        <p class="alert alert-danger" *ngIf="signup.controls['firstname'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">Middle Name:
+                        </label>
+                        <input placeholder="Middle Name" class="form-control" type="text" [(ngModel)]="user.MiddleName" formControlName="middlename">
+                        <p class="alert alert-danger" *ngIf="signup.controls['middlename'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
 
-      <div class="content">
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                      <form  (ngSubmit)="doLogin()" >
-                          <div class="card">
-                              <div class="header text-center">Login</div>
-                              <div class="content">
-                                  <div class="form-group">
-                                      <label>User Name</label>
-                                      <input  class="form-control" placeholder="Enter Name" type="text">
-                                  </div>
-                                  <div class="form-group">
-                                      <label>Password</label>
-                                      <input  class="form-control"  placeholder="Password" type="password">
-                                  </div>
-                                 
-                              </div>
-                              <div class="footer text-center">
-                                  <button class="btn btn-fill btn-danger btn-wd" type="submit" >Login</button>
-                              </div>
-                          </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="">Last Name:
+                        </label>
+                        <input placeholder="Last Name" class="form-control" [(ngModel)]="user.LastName" formControlName="lastname" type="text">
+                        <p class="alert alert-danger" *ngIf="signup.controls['lastname'].hasError('pattern')">
+                            Please enter a valid name.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                      </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Email:
+                        </label>
+                        <input placeholder="Email" class="form-control" [(ngModel)]="user.Email" formControlName="email" type="email">
+                        <div *ngIf="signup.controls['email'].touched">
+                            <p class="alert alert-danger" *ngIf="signup.controls['email'].hasError('pattern')">
+                                Please enter a valid email
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Mobile:
+                        </label>
+                        <input placeholder="Mobile" class="form-control" [(ngModel)]="user.Mobile" formControlName="mobile" type="tel">
+                        <p class="alert alert-danger" *ngIf="signup.controls['mobile'].hasError('maxlength')">
+                            Your mobile number cannot exceed 9 characters.
+                        </p>
+                        <div *ngIf="!signup.controls['mobile'].hasError('maxlength')">
+                            <p class="alert alert-danger" *ngIf="signup.controls['mobile'].hasError('pattern')">
+                                Please enter a valid mobile number.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                  </div>
-              </div>
-          </div>
-      </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">User Name:
+                        </label>
+                        <input placeholder="User Name" class="form-control" [(ngModel)]="user.UserName" formControlName="username" type="text">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Password
+                        </label>
+                        <input placeholder="Password" class="form-control" [(ngModel)]="user.Password" formControlName="password" type="password">
+                    </div>
+                </div>
+            </div>
 
-    <footer class="footer footer-transparent">
-          <div class="container">
-              <nav class="pull-left">
-                  <ul>
-                      <li>
-                          <a href="#">
-                              Home
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#">
-                              Company
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#">
-                              Portfolio
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#">
-                             Blog
-                          </a>
-                      </li>
-                  </ul>
-              </nav>
-              <p class="copyright pull-right">
-                  © 2018 <a href="https://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-              </p>
-          </div>
-      </footer>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">District</label>
+                        <select class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId" (change)="selectDistrict(user.districtId)">
+                            <option disabled [ngValue]="user.districtId ? null : user.districtId">Select District</option>
+                            <option *ngFor="let district of districtsArr" [ngValue]="district">
+                                {{district.DistrictName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-  <div class="full-page-background" style="background-image: url(&quot;../../../assets/img/full-screen-image-1.jpg&quot;)"></div></div>  
-</div> -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">EPA</label>
+                        <select class="form-control custom-select" formControlName="epas" [(ngModel)]="user.epaId" (change)="selectEpa(user.epaId)"
+                            [disabled]="epaArray?.length == 0">
+                            <option disabled [ngValue]="user.epaId ? null : user.epaId">Select EPA</option>
+                            <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
+                                {{epa.EPAName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-dashboard
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Section</label>
+                        <select class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
+                            [disabled]="sectionArray?.length == 0">
+                            <option disabled [ngValue]="user.sectionId ? null : user.sectionId">Select Section</option>
+                            <option *ngFor="let section of sectionArray" [ngValue]="section">
+                                {{section.SectionName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        <select class="form-control custom-select" formControlName="countries" [(ngModel)]="user.country" (change)="selectCountry(user.country)">
+                            <option disabled [ngValue]="user.country ? null : user.country">Select Country</option>
+                            <option *ngFor="let countries of countriesArr" [ngValue]="countries">
+                                {{countries.CountryName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">State</label>
+                        <select class="form-control custom-select" formControlName="states" [(ngModel)]="user.state" (change)="selectState(user.state)">
+                            <option disabled [ngValue]="user.state ? null : user.state">Select State</option>
+                            <option selected *ngFor="let states of statesArr" [ngValue]="states">
+                                {{states.StateName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Region</label>
+                        <select class="form-control custom-select" formControlName="regions" [(ngModel)]="user.region" (change)="selectRegion(user.region)">
+                            <option disabled [ngValue]="user.region ? null : user.region">Select Region</option>
+                            <option *ngFor="let regions of regionsArr" [ngValue]="regions">
+                                {{regions.RegionName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">PO Box:
+                        </label>
+                        <input placeholder="Post Box" class="form-control" [(ngModel)]="user.Pobox" formControlName="pobox" type="text">
+                        <p class="alert alert-danger" *ngIf="signup.controls['pobox'].hasError('maxlength')">
+                            Your Postal Code cannot exceed 6 characters.
+                        </p>
+
+                        <div *ngIf="!signup.controls['pobox'].hasError('maxlength')">
+                            <p class="alert alert-danger" *ngIf="signup.controls['pobox'].hasError('pattern')">
+                                Please enter a valid Postal Code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label" for="">Village:
+                        </label>
+                        <input placeholder="Village" class="form-control" [(ngModel)]="user.Village" formControlName="village" type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- <fieldset>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="">Address Of The Farm:
+                                    </label>
+                                    <input class="form-control" [(ngModel)]="user.Address" formControlName="farmAddresss" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="">Farm Contact Number
+                                    </label>
+                                    <input class="form-control" [(ngModel)]="user.FarmContact" formControlName="farmmobile" type="tel">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset> -->
+
+        </div>
+        <div class="footer text-center">
+
+            <button class="btn btn-fill btn-success btn-wd" type="submit" [disabled]="!signup.valid">Sign up</button>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-8" (click)="showSignup = !showSignup">
+                <h5 class="forget-pwd">Sign in</h5>
+            </div>
+
+        </div>
+    </div>
+</form>

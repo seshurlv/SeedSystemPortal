@@ -1,0 +1,274 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div id="loader" *ngIf="growerArr?.length == 0">
+      <img src="assets/img/loader-preview.svg" alt="loading">
+    </div>
+
+    <div class="row" *ngIf="growerArr?.length != 0">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="title">Registrations List</h4>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Inspector Name</th>
+                  <th>Seed Class</th>
+                  <th>Crop Name</th>
+                  <th>Varient Name</th>
+                  <th>Area</th>
+                  <th>Varient Name</th>
+                  <th>Seed Source</th>
+                  <th style="cursor:pointer;" (click)="toogleArrow(arrow)">Registered Date
+                    <i class="fas fa-chevron-up" *ngIf="arrow"></i>
+                    <i class="fas fa-chevron-down" *ngIf="!arrow"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- {{growerArr | json}} -->
+                <tr *ngFor="let grower of growerArr | reverse:arrow:sortgrower  | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <!-- <td>{{grower.GrowerName}}</td> -->
+                  <td>{{grower.InspectorName ? grower.InspectorName : '----'}}</td>
+                  <td>{{grower?.ProductClass.ClassName}}</td>
+                  <td>{{grower.ProductCategory.ProductCategoryName}}</td>
+                  <td>{{grower.Product.ProductName}}</td>
+                  <td>{{grower.Area}}</td>
+                  <td>{{grower.SeedSource}}</td>
+                  <td [ngClass]="{'insp-status-hover' : grower.Status == 'Inspected'}" (click)="getObv(grower)" data-toggle="modal" [attr.data-target]="'#' + grower.Status">
+                      {{grower.Status}}
+                      <span *ngIf="grower.Status == 'Inspected' ">
+                        <i [ngClass]="{'insp-status' : grower.Status == 'Inspected'}" class="fas fa-info-circle"></i>
+                      </span>
+                    </td>
+                  <td>{{grower.UpdatedAt | date:'dd/MM/yyyy'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+
+</div>
+
+
+
+<!-- modal -->
+<div class="modal fade" id="Inspected" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Observation Details </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="Obv" style="font-size: 15px;margin: 1px;letter-spacing: 1px;">
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Observation Id
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.ID}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Maximum % Off-types
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.OffTypePlants ? Obv?.OffTypePlants : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Pest Disease Score
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.PestDiseaseScore ? Obv?.PestDiseaseScore : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Planting Pattern
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.PlantingPattern ? Obv?.PlantingPattern : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Pollinating Females
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.PollinatingFemales ? Obv?.PollinatingFemales : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Female Receptive Silks
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.FemaleReceptiveSilks ? Obv?.FemaleReceptiveSilks : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Male Elimination
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.MaleElimination ? Obv?.MaleElimination : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Off-Type Cobs
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.OffTypeCobs ? Obv?.OffTypeCobs : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Defective Cobs
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.DefectiveCobs ? Obv?.DefectiveCobs : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Remarks By Inspector
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.RemarksByInspector ? Obv?.RemarksByInspector : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Recommendation For Grower
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.RecommendationForGrower ? Obv?.RecommendationForGrower : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Crop Stage
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.CropStage ? Obv?.CropStage : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Isolation Distance Maintained
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.IsIsolationDistanceMaintained ? 'Yes' : 'No'}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Growth Condition
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.GrowthCondition ? Obv?.GrowthCondition : "NA"}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Date Of Sowing
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.DateOfSowing | date:'dd/MM/yyyy'}}
+            </div>
+          </div>
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Recommendation for certification
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.RecommendationForCertification ? 'Yes' : 'No'}}
+            </div>
+          </div>
+  
+  
+  
+          <div class="row obv-modal">
+            <div class="col-md-7">
+              Status
+              <div class="floatRight">:
+              </div>
+            </div>
+            <div class="col-md-5">
+              {{Obv?.Status}}
+            </div>
+          </div>
+  
+        </div>
+       
+      </div>
+    </div>
+  </div>

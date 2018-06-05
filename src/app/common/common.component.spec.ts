@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RootFooterComponent } from './root-footer.component';
+import { CommonComponent } from './common.component';
 
-describe('RootFooterComponent', () => {
-  let component: RootFooterComponent;
-  let fixture: ComponentFixture<RootFooterComponent>;
+describe('CommonComponent', () => {
+  let component: CommonComponent;
+  let fixture: ComponentFixture<CommonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RootFooterComponent ]
+      declarations: [ CommonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RootFooterComponent);
+    fixture = TestBed.createComponent(CommonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
