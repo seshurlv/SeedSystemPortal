@@ -241,10 +241,10 @@ export class CommonComponent implements OnInit {
   }
   
   selectCountry(country) {
-    console.log(country)
+    //console.log(country)
     this.authService.GetStatesByCountryId(country.CountryID)
       .subscribe(res => {
-        console.log(res)
+        //console.log(res)
         this.statesArr = res
       })
   }

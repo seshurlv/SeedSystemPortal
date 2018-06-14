@@ -268,10 +268,10 @@ export class RegisterComponent implements OnInit {
   }
 
   selectCountry(country) {
-    console.log(country)
+    //console.log(country)
     this.authService.GetStatesByCountryId(country.CountryID)
     .subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.statesArr = res
     })
   }
@@ -327,12 +327,12 @@ export class RegisterComponent implements OnInit {
       FarmDetails: this.farmAddressArr
     }
 
-    console.log(JSON.stringify(user))
+    //console.log(JSON.stringify(user))
 
     if (this.form.valid) {
       this.authService.createUser(user)
         .subscribe(res => {
-          console.log(JSON.stringify(res))
+          //console.log(JSON.stringify(res))
           this.toastTitle = 'Registration';
           if (res == 1) {
             this.form.reset();
@@ -466,7 +466,7 @@ export class RegisterComponent implements OnInit {
           if (res == 1) {
             this.Inspform.reset();
             this.clearUserDetails()
-            // this.grower = [];
+            this.grower = [];
             // this.GrowersArr.length = 0
 
             this.RegsucessAlert = true;

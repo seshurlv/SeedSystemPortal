@@ -1,7 +1,7 @@
 <div class="content" style="    padding: 30px 15px;overflow: hidden;">
     <div class="container">
         <div *ngIf="inspection">
-            <div id="loader" *ngIf="seedClassArr?.length == 0">
+            <div id="loader" *ngIf="GrowersArr?.length == 0">
                 <img src="assets/img/loader-preview.svg" alt="loading">
             </div>
         </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="row card-padding" *ngIf=" countriesArr?.length != 0 || seedClassArr?.length != 0">
+        <div class="row card-padding" *ngIf=" countriesArr?.length != 0 || GrowersArr?.length != 0">
             <div class="col-md-11">
                 <div class="card card-padding">
 

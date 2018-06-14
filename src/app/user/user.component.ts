@@ -115,7 +115,7 @@ export class UserComponent implements OnInit {
 
           this.userProfile.FarmDetails = []
 
-          console.log(this.userProfile.FarmDetails)
+          //console.log(this.userProfile.FarmDetails)
         }
 
       })
@@ -143,13 +143,13 @@ export class UserComponent implements OnInit {
         // console.log('get Countries API ' + JSON.stringify(this.countriesArr))
       }, error => {
 
-        console.log('Get Countries ERR API ', error)
+        //console.log('Get Countries ERR API ', error)
       })
 
   }
 
   selectDistrict(discrict) {
-    console.log(discrict)
+    //console.log(discrict)
 
     this.authService.getEpaByDistrictId(discrict.DistrictID)
       .subscribe(res => {
@@ -160,18 +160,18 @@ export class UserComponent implements OnInit {
   }
 
   selectEpa(epa) {
-    console.log(JSON.stringify(epa))
+    //console.log(JSON.stringify(epa))
     this.authService.GetSectionByEPAId(epa.ID)
       .subscribe(res => {
         this.sectionArray = res
-        console.log(this.sectionArray)
+        //console.log(this.sectionArray)
       })
   }
 
   onUpdateProfile(userProfile) {
-    console.log(this.form.value)
-    console.log(this.form.value.districts)
-    console.log(this.userProfile.FarmDetails)
+    //console.log(this.form.value)
+    //console.log(this.form.value.districts)
+    //console.log(this.userProfile.FarmDetails)
 
     var user = {
       "UserID": userProfile.UserID,
@@ -209,7 +209,7 @@ export class UserComponent implements OnInit {
       "MobileNumber": userProfile.MobileNumber,
       "FarmDetails": this.userProfile.FarmDetails
     }
-    console.log(JSON.stringify(user))
+    //console.log(JSON.stringify(user))
 
     this.authService.createUser(user)
       .subscribe(res => {
@@ -233,10 +233,10 @@ export class UserComponent implements OnInit {
   }
 
   selectCountry(country) {
-    console.log(country)
+    //console.log(country)
     this.authService.GetStatesByCountryId(country.CountryID)
       .subscribe(res => {
-        console.log(res)
+        //console.log(res)
         this.statesArr = res
       })
   }

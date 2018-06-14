@@ -44,7 +44,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let country of countriesList  | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <tr *ngFor="let country of countriesList | reverse:false  | paginate: { itemsPerPage: 10, currentPage: p }">
                     <td>{{country.CountryName}}</td>
                     <td>{{country.CountryCode}}</td>
                     <td>{{country.CountryPhoneCode}}</td>
@@ -63,82 +63,91 @@
 
 
     <!-- statesList -->
-    <div class="row" *ngIf="statesList?.length != 0">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="card">
-          <div class="header">
-            <div class="row">
-              <div class="col-md-8">
-                <h4 class="title">States List</h4>
-              </div>
-              <div class="col-md-4 plus-icon">
-                <i (click)="showStateModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#stateModal" style="cursor: pointer;"></i>
+    <div *ngIf="router.url == '/state'">
+      <div class="row" *ngIf="statesList?.length != 0">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="card">
+            <div class="header">
+              <div class="row">
+                <div class="col-md-8">
+                  <h4 class="title">States List</h4>
+                </div>
+                <div class="col-md-4 plus-icon">
+                  <i (click)="showStateModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#stateModal" style="cursor: pointer;"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="content table-responsive table-full-width">
+            <div class="content table-responsive table-full-width">
 
-            <table class="table table-hover table-striped">
-              <thead>
-                <tr>
-
-                  <th>State Name</th>
-                  <th>Country Name</th>
-                  <th>Region </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let state of statesList  | paginate: { itemsPerPage: 10, currentPage: p }">
-                  <td>{{state.StateName}}</td>
-                  <td>{{state?.Country?.CountryName}}</td>
-                  <td>{{state?.Region?.RegionName}}</td>
-                  <td>
-                    <i style="cursor: pointer;" (click)="editState(state)" class="fas fa-pencil-alt" data-toggle="modal" data-target="#stateModal"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>State Name</th>
+                    <th>Country Name</th>
+                    <th>Region </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let state of statesList | reverse:false  | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{state.StateName}}</td>
+                    <td>{{state?.Country?.CountryName}}</td>
+                    <td>{{state?.Region?.RegionName}}</td>
+                    <td>
+                      <i style="cursor: pointer;" (click)="editState(state)" class="fas fa-pencil-alt" data-toggle="modal" data-target="#stateModal"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
 
     <!-- districtsList -->
-    <div class="row" *ngIf="districtsList?.length != 0">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="card">
-          <div class="header">
-            <div class="row">
-              <div class="col-md-8">
-                <h4 class="title">Districts List</h4>
-              </div>
-              <div class="col-md-4 plus-icon">
-                <i (click)="showDistrictModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#districtModal" style="cursor: pointer;"></i>
+    <div *ngIf="router.url == '/district'">
+      <div class="row" *ngIf="districtsList?.length != 0">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="card">
+            <div class="header">
+              <div class="row">
+                <div class="col-md-8">
+                  <h4 class="title">Districts List</h4>
+                </div>
+                <div class="col-md-4 plus-icon">
+                  <i (click)="showDistrictModal()" class="fas fa-plus-circle" data-toggle="modal" data-target="#districtModal" style="cursor: pointer;"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="content table-responsive table-full-width">
-            <table class="table table-hover table-striped">
-              <thead>
-                <tr>
-                  <th>District Name</th>
-                  <th>State Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let district of districtsList  | paginate: { itemsPerPage: 10, currentPage: p }">
-                  <td>{{district.DistrictName}}</td>
-                  <td>{{district.State.StateName}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+            <div class="content table-responsive table-full-width">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>District Name</th>
+                    <th>State Name</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let district of districtsList | reverse:false  | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{district.DistrictName}}</td>
+                    <td>{{district.State.StateName}}</td>
+                    <td>
+                      <i style="cursor: pointer;" (click)="editDistrict(district)" class="fas fa-pencil-alt" data-toggle="modal" data-target="#districtModal"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event" class="pagination-list"></pagination-controls>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
 
   </div>
 </div>
@@ -150,7 +159,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -159,7 +168,7 @@
           <div class="row">
 
             <div class="col-md-12">
-             
+
               <div class="form-group">
                 <label class="control-label" for="">Country Name*
                 </label>
@@ -173,9 +182,15 @@
               </div>
 
               <div class="form-group">
-                <label class="control-label" for="">Country Telephone Code*
+                <label class="control-label" for="">Country Telephone Code
                 </label>
                 <input class="form-control" formControlName="countryTelephonecode" type="text" placeholder="Enter Country Telephone Code">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="">Country Discription
+                </label>
+                <input class="form-control" formControlName="countryDiscription" type="text" placeholder="Enter Country Discription">
               </div>
             </div>
           </div>
@@ -197,7 +212,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -211,7 +226,13 @@
                 <label class="control-label" for="">State Name*
                 </label>
                 <input class="form-control" formControlName="stateName" type="text" [(ngModel)]="state" placeholder="Enter State Name">
-              </div>       
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="">State Description
+                </label>
+                <input class="form-control" formControlName="stateDescription" type="text" [(ngModel)]="stateDesc" placeholder="Enter State Description">
+              </div>
 
               <div class="form-group" *ngIf="!editBool">
                 <label class="control-label">Country*</label>
@@ -222,7 +243,7 @@
                   </option>
                 </select>
               </div>
-              
+
               <div class="form-group" *ngIf="editBool">
                 <label class="control-label">Country*</label>
                 <select class="form-control custom-select" formControlName="countryId" [(ngModel)]="country" (change)="selectCountry(country)">
@@ -232,11 +253,11 @@
                   </option>
                 </select>
               </div>
-              
+
               <div class="form-group" *ngIf="!editBool">
                 <label class="control-label">Region*</label>
                 <select class="form-control custom-select" formControlName="regionId" [(ngModel)]="region" (change)="selectRegion(region)">
-                    <option disabled  *ngIf="!selectBoolRegion" [ngValue]="selectBoolRegion ? null : region">{{stateForm.value.regionId}}</option>
+                  <option disabled *ngIf="!selectBoolRegion" [ngValue]="selectBoolRegion ? null : region">{{stateForm.value.regionId}}</option>
                   <option *ngFor="let regions of regionsList" [ngValue]="regions.RegionID">
                     {{regions.RegionName}}
                   </option>
@@ -244,20 +265,20 @@
               </div>
 
               <div class="form-group" *ngIf="editBool">
-                  <label class="control-label">Region</label>
-                  <select class="form-control custom-select" formControlName="regionId" [(ngModel)]="region" (change)="selectRegion(region)">
-                    <option disabled [ngValue]="region ? null : region">Select Region*</option>
-                    <option *ngFor="let regions of regionsList" [ngValue]="regions.RegionID">
-                      {{regions.RegionName}}
-                    </option>
-                  </select>
-                </div>
+                <label class="control-label">Region*</label>
+                <select class="form-control custom-select" formControlName="regionId" [(ngModel)]="region" (change)="selectRegion(region)">
+                  <option disabled [ngValue]="region ? null : region">Select Region</option>
+                  <option *ngFor="let regions of regionsList" [ngValue]="regions.RegionID">
+                    {{regions.RegionName}}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" (click)="saveStateSubmit()" data-dismiss="modal" [disabled]="!state || !selectBoolCountry || !selectBoolRegion">Save State</button>
+            <button type="submit" class="btn btn-primary" (click)="saveStateSubmit()" data-dismiss="modal" [disabled]="stateForm.pristine">Save State</button>
           </div>
         </form>
       </div>
@@ -267,12 +288,12 @@
 </div>
 
 
-<!-- <div class="modal fade" id="districtModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="districtModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{titleText}} {{modalTitle}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeModal()" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -286,39 +307,43 @@
                 <label class="control-label" for="">District Name*
                 </label>
                 <input class="form-control" formControlName="districtName" type="text" [(ngModel)]="district" placeholder="Enter District Name">
-              </div>       
+              </div>
 
-              <div class="form-group" >
+              <div class="form-group">
+                <label class="control-label" for="">District Description
+                </label>
+                <input class="form-control" formControlName="districtDescription" type="text" [(ngModel)]="districtdesc" placeholder="Enter District Description">
+              </div>
+
+              <div class="form-group" *ngIf="editBool">
                 <label class="control-label">State*</label>
-                <select class="form-control custom-select" formControlName="stateId" [(ngModel)]="state" (change)="selectCountry(country)">
-                  <option disabled [ngValue]="state ? null : state">Select Country</option>
-                  <option *ngFor="let countries of countriesList" [ngValue]="countries.CountryID">
-                    {{countries.CountryName}}
+                <select class="form-control custom-select" formControlName="stateId" [(ngModel)]="state" (change)="selectState(state)">
+                  <option *ngIf="!state" disabled [ngValue]="state ? null : state">Select State</option>
+                  <option *ngFor="let states of statesList" [ngValue]="states.StateID">
+                    {{states.StateName}}
                   </option>
                 </select>
               </div>
 
-             <div class="form-group" >
-                <label class="control-label">Country*</label>
-                <select class="form-control custom-select" formControlName="countryId" [(ngModel)]="country" (change)="selectCountry(country)">
-                  <option disabled *ngIf="!selectBoolCountry" [value]="selectBoolCountry ? null : country">{{stateForm.value.countryId}}</option>
-                  <option *ngFor="let countries of countriesList" [value]="countries.CountryID">
-                    {{countries.CountryName}}
+              <div class="form-group" *ngIf="!editBool">
+                <label class="control-label">State Name*</label>
+                <select class="form-control custom-select" formControlName="stateId" [(ngModel)]="state" (change)="selectState(state)">
+                  <option *ngIf="!selectBoolState" [ngValue]="selectBoolState ? null : state">{{districtForm.value.stateId}}</option>
+                  <option *ngFor="let states of statesList" [ngValue]="states.StateID">
+                    {{states.StateName}}
                   </option>
                 </select>
               </div>
-                         
-              
             </div>
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" (click)="saveDistrictSubmit()" data-dismiss="modal" [disabled]="!districtForm.valid">Save State</button>
+            <button type="submit" class="btn btn-primary" (click)="saveDistrictSubmit()" data-dismiss="modal" [disabled]="districtForm.pristine">Save State</button>
           </div>
         </form>
       </div>
 
     </div>
   </div>
-</div> -->
+</div>

@@ -10,66 +10,46 @@ import { AuthService } from '../../services/auth-service.service'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public emailChartType: ChartType;
-  public emailChartData: any;
-  public emailChartLegendItems: LegendItem[];
 
-  public hoursChartType: ChartType;
-  public hoursChartData: any;
-  public hoursChartOptions: any;
-  public hoursChartResponsive: any[];
-  public hoursChartLegendItems: LegendItem[];
+  adminpieChartData
+  adminBarChartData
+  adminBarChartDataForDistrict
 
-  public activityChartType: ChartType;
-  public activityChartData: any;
-  public activityChartOptions: any;
-  public activityChartResponsive: any[];
-  public activityChartLegendItems: LegendItem[];
+  tlpieChartData
+  tlBarChartData
+  tlDonutChartData
 
-  growersList
-  tableData1
-  AdminpieChartData
-  AdminBarChartData
-  AdminDonutChartData
-
-  TlpieChartData
-  TlBarChartData
-  TlDonutChartData
-  AdminBarChartDataForDistrict
-
-  PsiBarChartDataForDistrict
-  PsiPieChartDataForDistrict
+  psiBarChartDataForDistrict
+  psiPieChartDataForDistrict
 
   growerPieChartDataForDistrict
   growerpieChartData
 
   Role
-  FilterdStats = []
+  filterdStats = []
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
 
     this.Role = JSON.parse(window.localStorage.getItem('Role'));
    
-    //console.log(this.Role)
     
     if (this.Role == 2) {
       let userId = 0
       this.authService.GetAreaPerCrop(userId,this.Role)
         .subscribe(res => {
-          var CropArea = [];
-          CropArea[0] = ['CropName', 'CropArea'];
+          var cropArea = [];
+          cropArea[0] = ['CropName', 'CropArea'];
           for (var i = 0; i < res.length; i++) {
-            //console.log(CropArea)
-            CropArea[i + 1] = [res[i].CropName, res[i].CropArea];
+            cropArea[i + 1] = [res[i].CropName, res[i].CropArea];
           }
 
-          if (CropArea) {
-            this.FilterdStats = CropArea.filter(Boolean);
-            //console.log(JSON.stringify(CropArea))
-            this.TlpieChartData = {
+          if (cropArea) {
+            this.filterdStats = cropArea.filter(Boolean);
+            this.tlpieChartData = {
               chartType: 'PieChart',
-              dataTable: this.FilterdStats,
+              dataTable: this.filterdStats,
               options: { 'title': 'Area Cultivated Per Each Crop (Hectares)',  'height': 400 }
             };
           }
@@ -79,19 +59,18 @@ export class HomeComponent implements OnInit {
 
       this.authService.GetRegistrationPerCrop()
         .subscribe(res => {
-          //console.log(JSON.stringify(res))
-          var CropGrown = [];
-          CropGrown[0] = ['CropName', 'RegistrationCount'];
+         
+          var cropGrown = [];
+          cropGrown[0] = ['CropName', 'RegistrationCount'];
 
           for (var i = 0; i < res.length; i++) {
-            CropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
+            cropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
           }
 
-          if (CropGrown) {
-            //console.log(JSON.stringify(CropGrown))
-            this.TlDonutChartData = {
+          if (cropGrown) {
+            this.tlDonutChartData = {
               chartType: 'PieChart',
-              dataTable: CropGrown,
+              dataTable: cropGrown,
               options: { 'title': 'Registrations Per Crop - 2018', 'height': 400, pieHole: 0.4 },
             };
           }
@@ -99,25 +78,25 @@ export class HomeComponent implements OnInit {
 
         this.authService.GetRegistrationStats()
         .subscribe(res => {
-          //console.log(JSON.stringify(res))
-          var Combined = [];
-          Combined[0] = ['Month', 'Registration Count', 'Inspected Count'];
+    
+          var regStates = [];
+          regStates[0] = ['Month', 'Registration Count', 'Inspected Count'];
 
           for (var i = 0; i < res.length; i++) {
-            // console.log(JSON.stringify(Combined))
-            Combined[i + 1] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
+            // console.log(JSON.stringify(regStates))
+            regStates[i + 1] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
             // if (res[i].RegistrationCount != 0) {
-            //   Combined[i] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
-            //   console.log(JSON.stringify(Combined[i]))          
+            //   regStates[i] = [res[i].Month, res[i].RegistrationCount, res[i].InspectedCount];
+            //   console.log(JSON.stringify(regStates[i]))          
             // }
           }
 
-          if (Combined) {
-            this.FilterdStats = Combined.filter(Boolean);
-            //console.log(JSON.stringify(Combined))
-            this.TlBarChartData = {
+          if (regStates) {
+            this.filterdStats = regStates.filter(Boolean);
+            //console.log(JSON.stringify(regStates))
+            this.tlBarChartData = {
               chartType: 'ColumnChart',
-              dataTable: this.FilterdStats,
+              dataTable: this.filterdStats,
               options: { 'title': 'Registrations VS Inspections - 2018', 'height': 400 }
             }
 
@@ -130,17 +109,17 @@ export class HomeComponent implements OnInit {
       this.authService.GetUserRegistrationsPerMonth()
       .subscribe(res => {
         //console.log(JSON.stringify(res))
-        var RegPerMonth = [];
-        RegPerMonth[0] = ['Month', 'User Registration Count'];
+        var regPerMonth = [];
+        regPerMonth[0] = ['Month', 'User Registration Count'];
         for (var i = 0; i < res.length; i++) {
-          RegPerMonth[i + 1] = [res[i].Month, res[i].UserRegistrationCount];
+          regPerMonth[i + 1] = [res[i].Month, res[i].UserRegistrationCount];
         }
 
-        if(RegPerMonth){
+        if(regPerMonth){
           //console.log(JSON.stringify(RegPerMonth))
-          this.AdminBarChartData = {
+          this.adminBarChartData = {
             chartType: 'ColumnChart',
-            dataTable: RegPerMonth,
+            dataTable: regPerMonth,
             options: { 'title': 'New User Registrations Per Month - 2018', 'height': 400},
           };
         }
@@ -150,17 +129,17 @@ export class HomeComponent implements OnInit {
       this.authService.GetRegistrationPerCrop()
         .subscribe(res => {
           //console.log(JSON.stringify(res))
-          var CropGrown = [];
-          CropGrown[0] = ['CropName', 'RegistrationCount'];
+          var cropGrown = [];
+          cropGrown[0] = ['CropName', 'RegistrationCount'];
           for (var i = 0; i < res.length; i++) {
-            CropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
+            cropGrown[i + 1] = [res[i].CropName, res[i].RegistrationCount];
           }
 
-          if (CropGrown) {
+          if (cropGrown) {
             //console.log(JSON.stringify(CropGrown))
-            this.AdminpieChartData = {
+            this.adminpieChartData = {
               chartType: 'PieChart',
-              dataTable: CropGrown,
+              dataTable: cropGrown,
               options: { 'title': 'Inspection Registrations Per Crop - 2018', 'height': 400},
             };
           }
@@ -179,7 +158,7 @@ export class HomeComponent implements OnInit {
 
           if (userDist) {
             //console.log(JSON.stringify(userDist))
-            this.AdminBarChartDataForDistrict = {
+            this.adminBarChartDataForDistrict = {
               chartType: 'ColumnChart',
               dataTable: userDist,
               options: { 'title': 'Registered Users Per District','height': 400},
@@ -193,40 +172,40 @@ export class HomeComponent implements OnInit {
 
       this.authService.GetInspectedGrowersPerMonth()
       .subscribe(res => {
-        var GrowersPerMonth = [];
-        GrowersPerMonth[0] = ['Month', 'Inspected Count'];
+        var growersPerMonth = [];
+        growersPerMonth[0] = ['Month', 'Inspected Count'];
 
         for (var i = 0; i < res.length; i++) {
-          GrowersPerMonth[i + 1] = [res[i].Month, res[i].InspectedCount];
+          growersPerMonth[i + 1] = [res[i].Month, res[i].InspectedCount];
         }
 
-        if (GrowersPerMonth) {
-          //console.log(JSON.stringify(GrowersPerMonth))
-          this.PsiBarChartDataForDistrict = {
+        if (growersPerMonth) {
+          //console.log(JSON.stringify(growersPerMonth))
+          this.psiBarChartDataForDistrict = {
             chartType: 'ColumnChart',
-            dataTable: GrowersPerMonth,
+            dataTable: growersPerMonth,
             options: { 'title': 'Inspected Growers Per Month - 2018',  'height': 400 },
           };
         }
 
       })
 
-      var UserID = JSON.parse(window.localStorage.getItem('UserId'))
+      var userID = JSON.parse(window.localStorage.getItem('UserId'))
       //console.log(UserID)
-      this.authService.GetInspectorStats(UserID,this.Role)
+      this.authService.GetInspectorStats(userID,this.Role)
       .subscribe(res => {
-        var InspectorStats = [];
-        InspectorStats[0] = ['Status', 'Count'];
+        var inspectorStats = [];
+        inspectorStats[0] = ['Status', 'Count'];
 
         for (var i = 0; i < res.length; i++) {
-          InspectorStats[i + 1] = [res[i].Status, res[i].Count];
+          inspectorStats[i + 1] = [res[i].Status, res[i].Count];
         }
 
-        if (InspectorStats) {
-          //console.log(JSON.stringify(InspectorStats))
-          this.PsiPieChartDataForDistrict = {
+        if (inspectorStats) {
+          //console.log(JSON.stringify(inspectorStats))
+          this.psiPieChartDataForDistrict = {
             chartType: 'PieChart',
-            dataTable: InspectorStats,
+            dataTable: inspectorStats,
             options: { 'title': 'Assigned Vs Inspected for the year 2018', 'height': 400,},
           };
         }
@@ -235,9 +214,9 @@ export class HomeComponent implements OnInit {
     }
 
     if(this.Role == 4){
-      var UserID = JSON.parse(window.localStorage.getItem('UserId'))
+      var userID = JSON.parse(window.localStorage.getItem('UserId'))
       //console.log(UserID)
-      this.authService.GetInspectorStats(UserID,this.Role)
+      this.authService.GetInspectorStats(userID,this.Role)
       .subscribe(res => {
         var growserStats = [];
         growserStats[0] = ['Status', 'Count'];
@@ -256,17 +235,17 @@ export class HomeComponent implements OnInit {
         }
       })
 
-      this.authService.GetAreaPerCrop(UserID,this.Role)
+      this.authService.GetAreaPerCrop(userID,this.Role)
         .subscribe(res => {
-          var CropArea = [];
-          CropArea[0] = ['CropName', 'CropArea'];
+          var cropArea = [];
+          cropArea[0] = ['CropName', 'CropArea'];
           for (var i = 0; i < res.length; i++) {
             //console.log(CropArea)
-            CropArea[i + 1] = [res[i].CropName, res[i].CropArea];
+            cropArea[i + 1] = [res[i].CropName, res[i].CropArea];
           }
 
-          if (CropArea) {
-            var filterdStats = CropArea.filter(Boolean);
+          if (cropArea) {
+            var filterdStats = cropArea.filter(Boolean);
             //console.log(JSON.stringify(CropArea))
             this.growerpieChartData = {
               chartType: 'PieChart',
@@ -277,134 +256,6 @@ export class HomeComponent implements OnInit {
         })
 
     }
-
-
-    this.tableData1 = {
-      headerRow: ['Grower Name', 'Farm Address', 'Previous Crop', 'Crop Grown', 'Variety',
-        'HA', 'Projected Output', 'Seed Issued', 'Company', 'Seed Source'],
-    };
-
-    this.growersList = [{
-      "GrowerName": "Mwambura J.D",
-      "FarmAddress": "Salima - Chitala (Chuzi Estate)",
-      "PreviousCrop": "Maize",
-      "CropGrown": "G/nut",
-      "Variety": "CG7",
-      "Ha": "4",
-      "ProjectedOutput": 4000,
-      "SeedIssued": "Basic",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    }, {
-      "GrowerName": "Osborn Sibande",
-      "FarmAddress": "Lilongwe - Namitete",
-      "PreviousCrop": "Maize",
-      "CropGrown": "G/nut",
-      "Variety": "CG7",
-      "Ha": "4",
-      "ProjectedOutput": 4000,
-      "SeedIssued": "Basic",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Patrick Saka Katete",
-      "FarmAddress": "Kasungu - Lisasadzi",
-      "PreviousCrop": "G/nut",
-      "CropGrown": "Maize",
-      "Variety": "ZM309",
-      "Ha": "10",
-      "ProjectedOutput": 10000,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Sauka Mziya",
-      "FarmAddress": "Mchinji - Kalulu",
-      "PreviousCrop": "G/nut",
-      "CropGrown": "Maize",
-      "Variety": "Hybrid Maize",
-      "Ha": "3",
-      "ProjectedOutput": 3200,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Suzgo Nyirongo",
-      "FarmAddress": "Lilongwe - Mpingu",
-      "PreviousCrop": "G/nut",
-      "CropGrown": "Maize",
-      "Variety": "Hybrid Maize",
-      "Ha": "2",
-      "ProjectedOutput": 1500,
-      "SeedIssued": "Basic",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Chamwabvi 4",
-      "FarmAddress": " Kasungu - Chamwavi",
-      "PreviousCrop": "Maize",
-      "CropGrown": "G/nut",
-      "Variety": "CG7",
-      "Ha": "3",
-      "ProjectedOutput": 3000,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Mpini Farm",
-      "FarmAddress": "Mpini Farm	Mchinji - Kalulu",
-      "PreviousCrop": "Maize",
-      "CropGrown": "G/nut",
-      "Variety": "CG7",
-      "Ha": "3",
-      "ProjectedOutput": 3000,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Wanangwa Phiri",
-      "FarmAddress": "Kasungu",
-      "PreviousCrop": "Maize",
-      "CropGrown": "G/nut",
-      "Variety": "CG7",
-      "Ha": "5",
-      "ProjectedOutput": 5000,
-      "SeedIssued": "Basic",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "William Chanache",
-      "FarmAddress": "Kasungu",
-      "PreviousCrop": "G/nut",
-      "CropGrown": "Maize",
-      "Variety": "Hybrid Maize",
-      "Ha": "5",
-      "ProjectedOutput": 5000,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    },
-    {
-      "GrowerName": "Zenas Nyemba",
-      "FarmAddress": "Dowa - Madisi",
-      "PreviousCrop": "G/nut",
-      "CropGrown": "Maize",
-      "Variety": "ZM309",
-      "Ha": "5",
-      "ProjectedOutput": 5000,
-      "SeedIssued": "Certified",
-      "Company": "ICRISAT-MSIDP",
-      "SeedSource": "ICRISAT"
-    }
-    ]
-
 
   }
 

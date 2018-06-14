@@ -5,6 +5,10 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthService {
+  public STAGEAPI = 'http://ssuadmin.stage.aheadrace.com:8084/'
+  public PRODAPI = 'http://ssuadmin.aheadrace.com:8082/'
+  public LOCALAPI = 'http://localhost:4200/'
+
   public APIHOST = 'http://ssuservices.stage.aheadrace.com:8085/api/';
   //public APIHOST = 'http://ssuservices.aheadrace.com:8083/api/';
   constructor(private _http: Http) { }
@@ -27,7 +31,7 @@ export class AuthService {
   getCountries() {
     let token = JSON.parse(window.localStorage.getItem('authToken'));
     let header = new Headers({ 'ServiceAccessToken': token, "Content-Type": "application/json", "Accept": "*/*" })
-    console.log(token)
+    //console.log(token)
     return this._http.get(this.APIHOST + 'Location/getcountries', { headers: header })
       .map(res => res.json())
   }

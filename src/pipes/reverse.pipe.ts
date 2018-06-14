@@ -7,9 +7,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ReversePipe implements PipeTransform {
 
   transform(array, args: boolean, growername: boolean) {
-    //console.log(args)
+    
 
     if(args == false){
+      // console.log(args)
+      // console.log(array)
       if (array) {
         return array.reverse();
       }
