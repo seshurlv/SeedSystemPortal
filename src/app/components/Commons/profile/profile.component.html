@@ -1,0 +1,340 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row" *ngIf="profilesucessAlert">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="alert alert-success alert-dismissible" style="text-align: center;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            Your Profile Is Saved
+                            <strong>Successfully</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="profileFailureAlert">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="alert alert-danger alert-dismissible" style="text-align: center;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Failed!</strong> Updating Your Profile . Please try again
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Profile</h4>
+                    </div>
+                    <div class="content">
+                        <form [formGroup]="form" *ngIf="userProfile" (ngSubmit)="onUpdateProfile(userProfile)">
+                            <!-- {{userProfile.Role.RoleID | json}} -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="userProfile.FirstName" formControlName="firstname">
+                                        <p class="alert alert-danger" *ngIf="form.controls['firstname'].hasError('pattern')">
+                                            Please enter a valid name.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Middle Name</label>
+                                        <input type="text" class="form-control" placeholder="Middle Name" [(ngModel)]="userProfile.MiddleName" formControlName="middlename">
+                                        <p class="alert alert-danger" *ngIf="form.controls['middlename'].hasError('pattern')">
+                                            Please enter a valid name.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="userProfile.LastName" formControlName="lastname">
+                                        <p class="alert alert-danger" *ngIf="form.controls['lastname'].hasError('pattern')">
+                                            Please enter a valid name.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Username (disabled)</label>
+                                        <input type="text" class="form-control" disabled placeholder="Username" [(ngModel)]="userProfile.UserName" formControlName="username">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile </label>
+                                        <input type="tel" class="form-control" placeholder="Mobile Number" [(ngModel)]="userProfile.MobileNumber" formControlName="mobile">
+                                        <p class="alert alert-danger" *ngIf="form.controls['mobile'].hasError('maxlength')">
+                                            Your mobile number cannot exceed 9 characters.
+                                        </p>
+                                        <div *ngIf="!form.controls['mobile'].hasError('maxlength')">
+                                            <p class="alert alert-danger" *ngIf="form.controls['mobile'].hasError('pattern')">
+                                                Please enter a valid mobile number.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" placeholder="Email" [(ngModel)]="userProfile.Email" formControlName="email">
+                                        <div *ngIf="form.controls['email'].touched">
+                                            <p class="alert alert-danger" *ngIf="form.controls['email'].hasError('pattern')">
+                                                Please enter a valid email.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Country*</label>
+                                        <select class="form-control custom-select" formControlName="countries" [(ngModel)]="user.country" (change)="selectCountry(user.country)">
+                                            <option *ngIf="!user.country" disabled [ngValue]="user.country ? null : user.country">{{userProfile.Address.Country.CountryName}}</option>
+                                            <option *ngFor="let countries of countriesArr" [ngValue]="countries">
+                                                {{countries.CountryName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">State*</label>
+                                        <select class="form-control custom-select" formControlName="states" [(ngModel)]="user.state" >
+                                            <option *ngIf="!user.state" disabled [ngValue]="user.state ? null : user.state">{{userProfile.Address.State.StateName}}</option>
+                                            <option selected *ngFor="let states of statesArr" [ngValue]="states">
+                                                {{states.StateName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Region*</label>
+                                        <select class="form-control custom-select" formControlName="regions" [(ngModel)]="user.region">
+                                            <option *ngIf="!user.region" disabled [ngValue]="user.region ? null : user.region">{{userProfile.Address.Region.RegionName}}</option>
+                                            <option *ngFor="let regions of regionsArr" [ngValue]="regions">
+                                                {{regions.RegionName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">District*</label>
+                                        <select class="form-control custom-select" formControlName="districts" [(ngModel)]="user.districtId" (change)="selectDistrict(user.districtId)">
+                                            <option *ngIf="!user.districtId" disabled [ngValue]="user.districtId ? null : user.districtId">{{userProfile.Address.District.DistrictName}}</option>
+                                            <option *ngFor="let district of districtsArr" [ngValue]="district">
+                                                {{district.DistrictName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">EPA*</label>
+                                        <select [disabled]="epaArray?.length == 0" class="form-control custom-select" formControlName="epas" [(ngModel)]="user.epaId"
+                                            (change)="selectEpa(user.epaId)">
+                                            <option *ngIf="!user.epaId" disabled [ngValue]="user.epaId ? null : user.epaId">{{userProfile.Address.EPA.EPAName}}</option>
+                                            <option selected *ngFor="let epa of epaArray" [ngValue]="epa">
+                                                {{epa.EPAName}}
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Section*</label>
+                                        <select *ngIf="!inspection" class="form-control custom-select" formControlName="sections" [(ngModel)]="user.sectionId" (change)="selectSection(user.sectionId)"
+                                            [disabled]="sectionArray?.length == 0">
+                                            <option *ngIf="!user.sectionId" disabled [ngValue]="user.sectionId ? null : user.sectionId">{{userProfile.Address.Section.SectionName}}</option>
+                                            <option *ngFor="let section of sectionArray" [ngValue]="section">
+                                                {{section.SectionName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" placeholder="Home Address" [(ngModel)]="userProfile.Address.AddressLine1" formControlName="village">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Postal Code</label>
+                                        <input type="text" class="form-control" placeholder="ZIP Code" [(ngModel)]="userProfile.Address.PostalCode" formControlName="pobox">
+                                        <p class="alert alert-danger" *ngIf="form.controls['pobox'].hasError('maxlength')">
+                                            Your Postal Code cannot exceed 6 characters.
+                                        </p>
+
+                                        <div *ngIf="!form.controls['pobox'].hasError('maxlength')">
+                                            <p class="alert alert-danger" *ngIf="form.controls['pobox'].hasError('pattern')">
+                                                Please enter a valid Postal Code.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="userProfile.Role.RoleID == 4">
+                                
+                                <table *ngIf="userProfile.FarmDetails.length > 0">
+
+                                    <tr>
+                                        <th class="table-borders">Farm Title</th>
+                                        <th class="table-borders">Farm Address</th>
+                                        <th class="table-borders">Farm Contact</th>
+                                        <th class="table-borders"></th>
+                                    </tr>
+                                    <tr *ngFor="let farmArr of userProfile.FarmDetails">
+                                        <td class="table-borders">{{farmArr.FarmTitle}}</td>
+                                        <td class="table-borders">{{farmArr.FarmAddress}}</td>
+                                        <td class="table-borders">{{farmArr.FarmContact}}</td>
+                                        <td class="table-borders">
+                                            <i class="fas fa-times-circle" (click)="removeMarkerFromTable(farmArr.FarmLattitude)"></i>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <form [formGroup]="Farm">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Farm Title
+                                                </label>
+                                                <input class="form-control" formControlName="FarmTitle" type="text" placeholder="Farm Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Farm Address
+                                                </label>
+                                                <input class="form-control" formControlName="FarmAddress" type="text" placeholder="Farm Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="">Farm Contact Number
+                                                </label>
+                                                <input class="form-control" formControlName="FarmContact" type="text" placeholder="Farm Contact Number">
+
+                                                <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('maxlength')">
+                                                    Your farm mobile number cannot exceed 10 characters.
+                                                </p>
+                                                <div *ngIf="!Farm.controls['FarmContact'].hasError('maxlength')">
+                                                    <p class="alert alert-danger" *ngIf="Farm.controls['FarmContact'].hasError('pattern')">
+                                                        Please enter a valid mobile number.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-2 ">
+                                        <label class="control-label" for="">Locate Farm Location
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8" *ngIf="cropValidationAlert">
+                                        <span class="label label-warning"> Please enter farm details before marking location </span>
+                                    </div>
+                                </div>
+
+                                <ngui-map zoom="13" center="{{lat}},{{long}}" (click)="onClick($event)">
+                                    <marker *ngFor="let pos of positions" [position]="pos" draggable="false" (click)="clicked($event)"></marker>
+                                    <info-window id="iw">
+                                        <div *ngIf="marker.display">
+                                            lat: {{ marker.lat }}, lng: {{ marker.lng }}
+                                            <img style="width: 75px;" src="assets/img/img_avatar.png">
+                                        </div>
+                                        <button (click)="hideMarkerInfo()">Hide Info</button>
+                                        <button (click)="removeMarker(marker)" type="button">Remove</button>
+                                    </info-window>
+                                </ngui-map>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button [disabled]="!Farm.valid || (userProfile.FarmDetails.length == positions.length) " class="btn btn-success" type="button"
+                                            (click)="saveLocation()">Save Location</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <button *ngIf="!farmersCropLengthBefore" type="submit" class="btn btn-info btn-fill pull-right" [disabled]="(form.pristine)">Update Profile</button>
+                                <button *ngIf="farmersCropLengthBefore" type="submit" class="btn btn-info btn-fill pull-right" [disabled]="(form.pristine) && (farmersCropLengthBefore >= userProfile.FarmDetails.length)">Update Profile</button>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-user">
+                    <div class="image">
+                        <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..." />
+                    </div>
+                    <div class="content">
+                        <div class="author">
+                            <a>
+                                <img class="avatar border-gray" src="/assets/img/img_avatar.png" alt="..." />
+
+                                <h4 class="title">{{userProfile?.FirstName}} {{userProfile?.LastName}}
+                                    <br />
+                                    <small>{{userProfile?.Role.Name}}</small>
+                                </h4>
+                            </a>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <button href="#" class="btn btn-simple">
+                            <i class="fab fa-facebook-square"></i>
+                        </button>
+                        <button href="#" class="btn btn-simple">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button href="#" class="btn btn-simple">
+                            <i class="fab fa-google-plus-square"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

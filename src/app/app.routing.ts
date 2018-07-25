@@ -3,26 +3,25 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { UserComponent } from './user/user.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AppComponent } from './app.component'
-import { UsersListComponent } from './users-list/users-list.component'
-import { InspectionRegistrationComponent } from './inspection-registration/inspection-registration.component'
-import { SchedulerComponent } from './scheduler/scheduler.component';
-import { ObservationsComponent } from './observations/observations.component';
-import { InspectorAssignmentsComponent } from './inspector-assignments/inspector-assignments.component';
-import { GrowerRegistrationsComponent } from './grower-registrations/grower-registrations.component'
-import { LocationsComponent } from './locations/locations.component';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/Commons/home/home.component';
+import { ProfileComponent } from './components/Commons/profile/profile.component';
+import { RegisterComponent } from './components/Admin/register/register.component';
+import { UsersListComponent } from './components/Admin/users-list/users-list.component';
+import { SchedulerComponent } from './components/TeamLead/scheduler/scheduler.component';
+import { ObservationsComponent } from './components/TeamLead/observations/observations.component';
+import { InspectorAssignmentsComponent } from './components/ParaSeedInspector/assignments/assignments.component';
+import { GrowerRegistrationsComponent } from './components/Grower/registrations/registrations.component'
+import { SignupComponent } from './components/Commons/shared/signup/signup.component';
+import { LocationsComponent } from './components/Admin/locations/locations.component';
 
 const routes: Routes = [
   { path: 'country', component: LocationsComponent },
   { path: 'state', component: LocationsComponent },
   { path: 'district', component: LocationsComponent },
   { path: 'dashboard', component: HomeComponent },
-  { path: 'user', component: UserComponent },
-  { path: '', redirectTo: 'Login', pathMatch: 'full' },
+  { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'userslist', component: UsersListComponent },
   { path: 'inspectionReg', component: RegisterComponent },
@@ -33,8 +32,6 @@ const routes: Routes = [
   { path: 'registrations', component: GrowerRegistrationsComponent },
   { path: '**', redirectTo: '' },
   { path: '*', redirectTo: '' }
-
-
 ];
 
 @NgModule({
@@ -48,5 +45,3 @@ const routes: Routes = [
   ],
 })
 export class AppRoutingModule { }
-
-//{ useHash: true }
